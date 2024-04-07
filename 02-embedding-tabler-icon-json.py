@@ -72,19 +72,7 @@ for i, icon_name in enumerate(icon_names):
         similarity_score_list.append(similarity_score)
     d[icon_name] = similarity_score_list
 
-# similarities = cos_sim(embeddings[0], embeddings[1:])
-# print("similarities:", similarities)
 
-
-# >>> df = pd.DataFrame({'col1': [1, 2], 'col2': [3, 4]})
-# >>> df
-#    col1  col2
-# 0     1     3
-# 1     2     4
-# >>> df.T
-#       0  1
-# col1  1  2
-# col2  3  4
 df = pd.DataFrame(data=d)
 
 
