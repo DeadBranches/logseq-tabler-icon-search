@@ -2,7 +2,7 @@ from sentence_transformers import CrossEncoder
 from icecream import ic
 
 # Load the model, here we use our base sized model
-model = CrossEncoder("mixedbread-ai/mxbai-rerank-base-v1")
+rerank_model = CrossEncoder("mixedbread-ai/mxbai-rerank-base-v1")
 
 
 # Example query and documents
@@ -17,6 +17,6 @@ documents = [
 ]
 
 # Lets get the scores
-results = model.rank(query, documents, return_documents=True, top_k=3)
+results = rerank_model.rank(query, documents, return_documents=True, top_k=3)
 
 ic(results)
