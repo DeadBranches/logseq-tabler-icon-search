@@ -50,6 +50,7 @@ class IconSearchRequest(BaseModel):
 class IconResult(BaseModel):
     name: str
     glyph: str
+    keywords: str
     similarity_score: float
 
 
@@ -89,13 +90,12 @@ async def icon_search(
 
     icon_data = []
     for row in icons:
-        icon_label = row.name
-        icon_glyph = row.glyph
         icon_vector = np.frombuffer(row.vector, dtype=np.float32)
         similarity_score = cos_sim(search_query_embedding, icon_vector)
         icon_info = {
-            "name": icon_label,
-            "glyph": icon_glyph,
+            "name": row.name,
+            "glyph": row.glyph,
+            "keywords": row.tags,
             "similarity_score": similarity_score.item(),
         }
         icon_data.append(icon_info)
@@ -110,5 +110,4 @@ async def icon_search(
 
 if __name__ == "__main__":
     import uvicorn
-
     uvicorn.run(logseq_icon_search, host="127.0.0.1", port=8666)
