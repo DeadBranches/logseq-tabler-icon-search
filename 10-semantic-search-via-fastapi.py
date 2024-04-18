@@ -59,12 +59,6 @@ class IconSearchResponse(BaseModel):
     result: List[IconResult]
 
 
-def calculate_similarity(vector1, vector2):
-    # generate a random float between 0 and 1
-    random_float = random.random()
-    return random_float
-
-
 embedding_model = SentenceTransformer(EMBEDDING_MODEL)
 
 
