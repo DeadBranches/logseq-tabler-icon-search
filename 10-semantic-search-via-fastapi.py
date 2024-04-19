@@ -1,14 +1,16 @@
-from fastapi import FastAPI, Depends, HTTPException
-from sqlalchemy import create_engine, Column, Integer, String
-import sqlalchemy
-from sqlalchemy.orm import sessionmaker, Session
-from pydantic import BaseModel
-from typing import List, Tuple, Dict
+from typing import List, Tuple, Dict, Any, Annotated
 import random
-import numpy as np
+
+from contextlib import asynccontextmanager
+from fastapi import FastAPI, Depends, HTTPException
 from icecream import ic
+from pydantic import BaseModel
+import numpy as np
+from sqlalchemy import create_engine, Column, Integer, String, Any
 from sentence_transformers import SentenceTransformer
 from sentence_transformers.util import cos_sim
+import sqlalchemy
+from sqlalchemy.orm import sessionmaker, Session, declarative_base
 
 EMBEDDING_MODEL: str = "mixedbread-ai/mxbai-embed-large-v1"
 
@@ -16,11 +18,22 @@ TABLE_NAME: str = "icons"
 DATABASE_DIRECTORY: str = "databases"
 DATABASE_FILENAME: str = "mxbai-embed-06-tabler-icons-full.db"
 DATABASE_URL = f"sqlite:///./{DATABASE_DIRECTORY}/{DATABASE_FILENAME}"
-logseq_icon_search = FastAPI()
+
+
+# Define embedding_model as a global variable
+embedding_model = Any
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    global embedding_model 
+    embedding_model = SentenceTransformer(EMBEDDING_MODEL)
+    yield
+
+app = FastAPI(lifespan=lifespan)
+
+
 engine = create_engine(DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
-Base = sqlalchemy.orm.declarative_base()
-
 
 def get_db():
     db = SessionLocal()
@@ -29,6 +42,7 @@ def get_db():
     finally:
         db.close()
 
+Base = declarative_base()
 
 # Database model
 class Icon(Base):
@@ -59,16 +73,13 @@ class IconSearchResponse(BaseModel):
     result: List[IconResult]
 
 
-embedding_model = SentenceTransformer(EMBEDDING_MODEL)
-
-
 def semantically_embed(model, text: str) -> List:
     """Generate a vector embedded with the semantic meaning of the text."""
     text_embedding = model.encode(text)
     return text_embedding
 
 
-@logseq_icon_search.get(
+@app.get(
     "/icon-search/{search_string}", response_model=IconSearchResponse
 )
 async def icon_search(
@@ -104,4 +115,4 @@ async def icon_search(
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(logseq_icon_search, host="127.0.0.1", port=8666)
+    uvicorn.run(app, host="127.0.0.1", port=8666)
