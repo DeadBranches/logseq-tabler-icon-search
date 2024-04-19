@@ -58,12 +58,6 @@ class IconSearchResponse(BaseModel):
     result: List[IconResult]
 
 
-def calculate_similarity(vector1, vector2):
-    # generate a random float between 0 and 1
-    random_float = random.random()
-    return random_float
-
-
 embedding_model = SentenceTransformer(EMBEDDING_MODEL)
 
 
@@ -80,25 +74,25 @@ async def icon_search(
     search_string: str,
     top_k: int = 5,
     query_prompt: str = "Represent this sentence for searching relevant passages:",
-    db: Session = Depends(get_db),
-):
+    db: Session = Depends(get_db)
+    ):
     search_query_embedding = semantically_embed(
         embedding_model, f"{query_prompt} {search_string}"
     )
-    icons = db.query(Icon).all()
+    # all_icons = db.query(Icon).all()
+    icons_query = db.query(Icon.name, Icon.glyph, Icon.vector, Icon.tags).all()
 
     icon_data = []
-    for row in icons:
-        icon_label = row.name
-        icon_glyph = row.glyph
-        icon_vector = np.frombuffer(row.vector, dtype=np.float32)
+    for name, glyph, vector, tags in icons_query:
+        icon_vector = np.frombuffer(vector, dtype=np.float32)
         similarity_score = cos_sim(search_query_embedding, icon_vector)
-        icon_info = {
-            "name": icon_label,
-            "glyph": icon_glyph,
+        icon_data.append({
+            "name": name,
+            "glyph": glyph,
+            "tags": tags,
             "similarity_score": similarity_score.item(),
-        }
-        icon_data.append(icon_info)
+        })
+
 
     top_results = sorted(icon_data, key=lambda x: x["similarity_score"], reverse=True)[
         :top_k
