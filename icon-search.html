@@ -10,27 +10,48 @@
     while (path.startsWith('/')) { path = path.substring(1); }
     return path;
   }
+  function logDebugInfo(text) {
+    var debugDiv = document.getElementById("debug");
+    var newText = document.createTextNode(text);
+    var lineBreak = document.createElement('br');
+    debugDiv.appendChild(newText);
+    debugDiv.appendChild(lineBreak);
+  }
+
   const projectPath = removeSlashes(local("project_path"));
   const endpointUrl = local("endpoint_url");
-  
+  const alpineJsFile = 'file:///' + projectPath + '/alpine.min.js';
+  const tablerFontFile = 'file:///' + projectPath + '/font-files/tabler-icons.woff';
 
-  // Load alpine.js library
-  const alpineJs = document.createElement('script');
-  alpineJs.src = 'file:///' + projectPath + '/alpine.min.js';
-  alpineJs.defer = true;
-</script>
-<style>
-  @font-face {
-    font-family: 'Tabler Icons';
-    src: url('file:///storage/04EC-C923/tasker/tabler-icons/tabler-icons.woff') format('woff');
+  function loadJsLibrary(filePath) {
+    let jsLibrary = document.createElement('script');
+    jsLibrary.src = filePath;
+    jsLibrary.defer = true;
+    document.head.appendChild(jsLibrary);
   }
+  loadJsLibrary(alpineJsFile);
+
+  function addCssStylesheet(css) {
+    const styleSheet = document.createElement('style');
+    styleSheet.type = 'text/css';
+    styleSheet.innerText = css;
+    document.head.appendChild(styleSheet);
+    }
+  
+  tablerFontFace = `@font-face {
+    font-family: 'Tabler Icons';
+    src: url('${tablerFontFile}') format('woff');
+    }`;
+  addCssStylesheet(tablerFontFace);
+</script>
+
+<style>
   .icon-link {
   text-decoration: none;
   display: flex;
   justify-content: center;
   align-items: center;
-}
-
+  }
   .icon {
     color: #000000;
     font-size: 30px;
@@ -60,29 +81,40 @@
 <div x-data="{
   query: '',
   results: [],
+
   fetchResults() {
-    fetch(endpointUrl + encodeURIComponent(this.query))
+    const url = endpointUrl + encodeURIComponent(this.query);
+    fetch(url)
       .then(response => response.json())
       .then(data => {
         this.results = data.result;
       })
-      .catch(error => console.error('Error fetching data:', error));
+      .catch(error => logDebugInfo(`Error fetching data: ${error}`));
+  },
+  copyToClipboard(result) {
+    setClip(`{{i ${result.glyph}}}`);
+    flash('copied');
   }
-}">
+  }">
 
   <input x-model="query" placeholder="Search...">
   <button @click="fetchResults">Search Icons</button>
   <div class="results-grid">
     <template x-for="result in results" :key="result.name">
-      <div class="result-item">
-        <a :href="'http://icon.glyph/' + result.glyph" class="icon-link"><span class="icon" x-html="'&#X' + result.glyph + ';'"></span></a>
-        <a :href="'http://icon.glyph/' + result.glyph" class="icon-link"><span x-text="result.name" class="label"></span></a>
+      <div class="result-item" @click="copyToClipboard(result)">
+        <span class="icon" x-html="'&#X' + result.glyph + ';'"></span>
+        <span x-text="result.name" class="label"></span>
       </div>
     </template>
   </div>
-
 </div>
 
+<div id="debug"></div>
+
+<script>
+  //logDebugInfo(`projectPath: ${projectPath}`);
+  //logDebugInfo(`endpointUrl: ${endpointUrl}`);
+</script>
 </body>
 </html>
 
