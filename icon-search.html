@@ -80,10 +80,11 @@
 
 <div x-data="{
   query: '',
+  top_k: 18,
   results: [],
 
   fetchResults() {
-    const url = endpointUrl + encodeURIComponent(this.query);
+    const url = endpointUrl + `${encodeURIComponent(this.query)}?top_k=${this.top_k}`;
     fetch(url)
       .then(response => response.json())
       .then(data => {
@@ -97,8 +98,10 @@
   }
   }">
 
+  <p>
   <input x-model="query" placeholder="Search...">
-  <button @click="fetchResults">Search Icons</button>
+  <button @click="fetchResults">Search Icons</button><br>
+  <input type="range" x-model="top_k" min="9" max="60" value="18" step="3" @change="fetchResults" class="slider"><span x-text="top_k"></span></p>
   <div class="results-grid">
     <template x-for="result in results" :key="result.name">
       <div class="result-item" @click="copyToClipboard(result)">

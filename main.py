@@ -119,7 +119,7 @@ async def icon_search(
         :top_k
     ]
 
-    icon_results = [IconResult(**result) for result in top_results]
+    # icon_results = [IconResult(**result) for result in top_results]
 
     rerank_input_query = f"{query_prompt} {search_string}"
     rerank_input_documents = [result["keywords"] for result in top_results]
@@ -133,7 +133,6 @@ async def icon_search(
     final_results = []
     for item in rerank_results:
         icon = {}
-        # add "score": item['score'] as a new key to the list item in icon_results["results"] with index equal to item['corpus_id']
         icon["name"] = top_results[item["corpus_id"]]["name"]
         icon["glyph"] = top_results[item["corpus_id"]]["glyph"]
         icon["keywords"] = top_results[item["corpus_id"]]["keywords"]
