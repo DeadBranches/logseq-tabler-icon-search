@@ -15,8 +15,8 @@ from sqlalchemy.orm import Session, sessionmaker
 EMBEDDING_MODEL: str = "mixedbread-ai/mxbai-embed-large-v1"
 
 TABLE_NAME: str = "icons"
-DATABASE_DIRECTORY: str = "databases"
-DATABASE_FILENAME: str = "mxbai-embed-06-tabler-icons-full.db"
+DATABASE_DIRECTORY: str = "../"
+DATABASE_FILENAME: str = "tabler-icons.sqlite3"
 DATABASE_URL = f"sqlite:///./{DATABASE_DIRECTORY}/{DATABASE_FILENAME}"
 
 logseq_icon_search = FastAPI()

@@ -1,6 +1,13 @@
-""" Module description:
-    This module implements a semantic search API for the icons table in the
-    mxbai-embed-06-tabler-icons-full.db database.
+""" A search engine for logseq tabler icons.
+    Logseq integrates a minimal version of tabler-icons for internal use.
+    This module uses text embedding and reranking models to return relevant icons
+    from a search query. 
+        - Keywords for associated icons are sourced from logseq-tabler-picker.
+        - Precomputed embeddings are stored in a sqlite3 database for use at inference.
+        - FastAPI exposes an endpoint for searching.
+        - HuggingFace sentence-transformer pipelines are used along with mxbread models
+            for semantic text embedding and reranking, although the specific models
+            can be swapped out.
 """
 
 import os
@@ -20,7 +27,7 @@ from sqlalchemy.orm import declarative_base, sessionmaker
 EMBEDDING_MODEL: str = "mixedbread-ai/mxbai-embed-large-v1"
 TABLE_NAME: str = "icons"
 DATABASE_DIRECTORY: str = "./"
-DATABASE_FILENAME: str = "mxbai-embed-06-tabler-icons-full.db"
+DATABASE_FILENAME: str = "tabler-icons.sqlite3"
 DATABASE_URL = f"sqlite://{os.path.join(DATABASE_DIRECTORY, DATABASE_FILENAME)}"
 print(DATABASE_URL)
 # endregion

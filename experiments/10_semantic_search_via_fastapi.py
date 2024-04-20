@@ -1,6 +1,6 @@
 """ Module description:
     This module implements a semantic search API for the icons table in the
-    mxbai-embed-06-tabler-icons-full.db database.
+    sqlite3 database.
 """
 
 # from contextlib import asynccontextmanager
@@ -17,8 +17,8 @@ from sqlalchemy.orm import declarative_base, sessionmaker
 # region Configuration
 EMBEDDING_MODEL: str = "mixedbread-ai/mxbai-embed-large-v1"
 TABLE_NAME: str = "icons"
-DATABASE_DIRECTORY: str = "databases"
-DATABASE_FILENAME: str = "mxbai-embed-06-tabler-icons-full.db"
+DATABASE_DIRECTORY: str = "../"
+DATABASE_FILENAME: str = "tabler-icons.sqlite3"
 DATABASE_URL = f"sqlite:///./{DATABASE_DIRECTORY}/{DATABASE_FILENAME}"
 # endregion
 

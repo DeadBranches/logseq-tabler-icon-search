@@ -1,14 +1,15 @@
-from fastapi import FastAPI, Depends, HTTPException
-from sqlalchemy import create_engine, Column, Integer, String
-import sqlalchemy
-from sqlalchemy.orm import sessionmaker, Session
-from pydantic import BaseModel
-from typing import List, Tuple, Dict
 import random
+from typing import Dict, List, Tuple
+
+import sqlalchemy
+from fastapi import Depends, FastAPI, HTTPException
+from pydantic import BaseModel
+from sqlalchemy import Column, Integer, String, create_engine
+from sqlalchemy.orm import Session, sessionmaker
 
 TABLE_NAME: str = "icons"
-DATABASE_DIRECTORY: str = "databases"
-DATABASE_FILENAME: str = "mxbai-embed-06-tabler-icons-full.db"
+DATABASE_DIRECTORY: str = "../"
+DATABASE_FILENAME: str = "tabler-icons.sqlite3"
 DATABASE_URL = f"sqlite:///./{DATABASE_DIRECTORY}/{DATABASE_FILENAME}"
 app = FastAPI()
 engine = create_engine(DATABASE_URL)
