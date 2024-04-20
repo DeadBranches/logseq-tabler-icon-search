@@ -3,6 +3,8 @@
     mxbai-embed-06-tabler-icons-full.db database.
 """
 
+import os
+
 # from contextlib import asynccontextmanager
 from typing import List
 
@@ -17,9 +19,10 @@ from sqlalchemy.orm import declarative_base, sessionmaker
 # region Configuration
 EMBEDDING_MODEL: str = "mixedbread-ai/mxbai-embed-large-v1"
 TABLE_NAME: str = "icons"
-DATABASE_DIRECTORY: str = "databases"
+DATABASE_DIRECTORY: str = "./"
 DATABASE_FILENAME: str = "mxbai-embed-06-tabler-icons-full.db"
-DATABASE_URL = f"sqlite:///./{DATABASE_DIRECTORY}/{DATABASE_FILENAME}"
+DATABASE_URL = f"sqlite://{os.path.join(DATABASE_DIRECTORY, DATABASE_FILENAME)}"
+print(DATABASE_URL)
 # endregion
 
 
