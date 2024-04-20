@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Icon Search</title>
+<script defer src="file:///storage/emulated/0/Tasker/cdn.min.js"></script>
+<style>
+  @font-face {
+    font-family: 'Tabler Icons';
+    src: url('file:///storage/04EC-C923/tasker/tabler-icons/tabler-icons.woff') format('woff');
+  }
+  .icon-link {
+  text-decoration: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+  .icon {
+    color: #000000;
+    font-size: 30px;
+    font-family: 'Tabler Icons';
+  }
+  .label {
+    color: #000000;
+    font-size: 13px;
+  }
+  .results-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+  }
+  .result-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: #f0f0f0;
+    margin-bottom: 5px;
+    padding: 5px;
+  }
+</style>
+</head>
+<body>
+
+<div x-data="{
+  query: '',
+  results: [],
+  fetchResults() {
+    fetch('https://serene.tail0b4c1.ts.net:8666/icon-search/' + encodeURIComponent(this.query))
+      .then(response => response.json())
+      .then(data => {
+        this.results = data.result;
+      })
+      .catch(error => console.error('Error fetching data:', error));
+  }
+}">
+
+  <input x-model="query" placeholder="Search...">
+  <button @click="fetchResults">Search Icons</button>
+  <div class="results-grid">
+    <template x-for="result in results" :key="result.name">
+      <div class="result-item">
+        <a :href="'http://icon.glyph/' + result.glyph" class="icon-link"><span class="icon" x-html="'&#X' + result.glyph + ';'"></span></a>
+        <a :href="'http://icon.glyph/' + result.glyph" class="icon-link"><span x-text="result.name" class="label"></span></a>
+      </div>
+    </template>
+  </div>
+
+</div>
+
+</body>
+</html>
+
