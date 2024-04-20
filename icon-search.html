@@ -13,6 +13,7 @@
   const projectPath = removeSlashes(local("project_path"));
   const endpointUrl = local("endpoint_url");
   
+
   // Load alpine.js library
   const alpineJs = document.createElement('script');
   alpineJs.src = 'file:///' + projectPath + '/alpine.min.js';
@@ -60,7 +61,7 @@
   query: '',
   results: [],
   fetchResults() {
-    fetch('' + encodeURIComponent(this.query))
+    fetch(endpointUrl + encodeURIComponent(this.query))
       .then(response => response.json())
       .then(data => {
         this.results = data.result;
