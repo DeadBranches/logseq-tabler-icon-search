@@ -1,26 +1,39 @@
-/* .input-container {
-
-} */
-
-.icon-panel-container {
-  height: 50vh;
-  overflow: hidden;
-}
-.result-container {
-  overflow-y: auto; /* Allow vertical scrolling */
-  height: 85%;
-  margin-top: 1rem; /* Space between the search form and results */
+md-dialog.icon-search#icon-search-main-dialog {
+    height: 70vh;
+    width: 70vh;
 }
 
-::slotted(div[slot="content"]) {
+    header.icon-search {
+        /* [slot="headline"] */
+        padding: 0px; 
+        display: block;
+    }
+        md-tabs.icon-search::part(divider) {
+            display: none;
+        }
+        section.icon-search {
+            margin-top: 1rem;
+            justify-content: center;
+            display:flex;
+        }
+
+
+    main.icon-search {
+        height: 100%;
+        overflow: hidden;
+    }
+        md-list.icon-search {
+        overflow-y: hidden; /* Allow vertical scrolling */
+        height: 100%;
+        margin-top: 1rem; /* Space between the search form and results */
+        }
+
+::slotted([slot="content"]) {
   margin-bottom: 1rem;
   padding-bottom: 2rem;
 }
 
-#icon-search {
-  position: relative;
-  z-index: 2;
-}
+
 .fab-container {
   z-index: 1;
   position: fixed;
