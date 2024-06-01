@@ -1,6 +1,6 @@
-.input-container {
+/* .input-container {
 
-}
+} */
 
 .icon-panel-container {
     height: 50vh;
@@ -8,7 +8,7 @@
 }
 .result-container {
     overflow-y: auto; /* Allow vertical scrolling */
-    height: 85%; /* Adjust the height as needed */
+    height: 85%; 
     margin-top: 1rem; /* Space between the search form and results */
 }
 

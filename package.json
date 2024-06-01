@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "dev": "npx web-dev-server --app-index 'src/frontend-dev/index.html' --es-module-specifier-resolution=node --node-resolve --watch",
+    "dev": "npx web-dev-server --app-index 'src/frontend/index.html' --es-module-specifier-resolution=node --node-resolve --watch",
     "build": "rollup -c",
     "preview": "npx web-dev-server --es-module-specifier-resolution=node --node-resolve --open",
     "lint": "eslint . --ext .js,.ts",

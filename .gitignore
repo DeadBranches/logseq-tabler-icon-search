@@ -420,7 +420,7 @@ dist
 **/test/**
 
 # database
-**/*.db
+#**/*.db
 
 # Authentication
 **/cookies*.json
