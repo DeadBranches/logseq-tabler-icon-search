@@ -3,33 +3,31 @@
 } */
 
 .icon-panel-container {
-    height: 50vh;
-    overflow: hidden;
+  height: 50vh;
+  overflow: hidden;
 }
 .result-container {
-    overflow-y: auto; /* Allow vertical scrolling */
-    height: 85%; 
-    margin-top: 1rem; /* Space between the search form and results */
+  overflow-y: auto; /* Allow vertical scrolling */
+  height: 85%;
+  margin-top: 1rem; /* Space between the search form and results */
 }
 
-
-  ::slotted(div[slot="content"]) {
-      margin-bottom: 1rem;
-      padding-bottom: 2rem;
-  }
-
+::slotted(div[slot="content"]) {
+  margin-bottom: 1rem;
+  padding-bottom: 2rem;
+}
 
 #icon-search {
-    position: relative;
-    z-index: 2;
+  position: relative;
+  z-index: 2;
 }
 .fab-container {
-    z-index: 1;
-    position: fixed;
-    right: 5vh;
-    bottom: 20vw;
+  z-index: 1;
+  position: fixed;
+  right: 5vh;
+  bottom: 20vw;
 }
 
 md-dialog {
-    overflow: hidden;
+  overflow: hidden;
 }
