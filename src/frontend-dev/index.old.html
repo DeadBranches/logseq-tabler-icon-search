@@ -1,0 +1,200 @@
+<!doctype html>
+<html>
+
+<head>
+    <!-- <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet"> -->
+
+    <link rel="stylesheet" href="../resources/css/env-development.css">
+
+    <style>
+        /* .scroller, .scrollable .scroller {
+    max-height: 80vh;
+    overflow-y: hidden !important;
+  overflow: hidden !important; /* needed to hide extra search results */
+        }
+
+        /* .result-container { */
+        /* Contains search results */
+        /* z-index: 1;
+  position: relative;
+  max-height: 80vh;
+  overflow-y: auto;  */
+        /* Enable vertical scrolling */
+        /* overflow: hidden; */
+        }
+
+        */
+    </style>
+</head>
+
+<body>
+
+    <script>
+
+        const fab = `
+            <!-- Action button -->
+                <md-fab class="fab-container" size="medium" variant="primary" aria-label="Search" id="fab-button">
+                    <md-icon slot="icon">&#xeb1c;</md-icon>
+                </md-fab>
+            `;
+        var fabOverlay = document.createElement('div');
+        fabOverlay.className = 'fab';
+        fabOverlay.innerHTML = fab;
+        document.body.appendChild(fabOverlay);
+
+        const dialogHTML = `
+        <div slot="headline" style="padding: 0px; display: block;">
+            <md-tabs slot="headline" aria-label="Content to view" id="primary-tabs">
+                <md-primary-tab aria-controls="icons-panel" id="icons-tab">Icon search</md-primary-tab>
+                <md-primary-tab aria-controls="photos-panel" id="photos-tab">Photos</md-primary-tab>
+            </md-tabs>
+            <style>
+                md-tabs::part(divider) {
+                    display: none;
+                }
+            </style>
+
+            <md-linear-progress indeterminate x-show="loading"></md-linear-progress>
+        </div>
+        <style>
+            ::slotted(div[slot="content"]) {
+                margin-top: 1rem;
+            }
+        </style>
+        <div slot="content" role="tabpanel" aria-labelledby="icons-tab" id="icons-panel" class="icon-panel-container">
+            <!-- <form slot="content" class="content-container" 
+        method="dialog" id="icon-search-panel" 
+        role="tabpanel" aria-labelledby="icon-search-tab"> -->
+            <form class="content-container" method="dialog" id="icon-search-form">
+
+
+                <!-- <label id="iconSearchTitle">
+                <span style="flex: 1;">Icon search</span>
+            </label> -->
+                <md-outlined-text-field autofocus label="Icon name" type="search" required x-model="query">
+                    <md-icon slot="leading-icon">&#xeb1c;</md-icon>
+                </md-outlined-text-field>
+                <md-text-button form="form-id" x-on:click="fetchResults()">Search</md-text-button>
+            </form>
+
+            <md-list class="result-container">
+
+                <template x-for="icon in results" x-bind:key="icon.name">
+                    <md-list-item type="button" x-on:click="navigator.clipboard.writeText(icon.glyph); hideOverlay()">
+                        <div slot="headline" x-text="icon.name"></div>
+                        <div slot="supporting-text" x-text="icon.keywords"></div>
+                        <md-icon slot="start" x-html="'&#x' + icon.glyph + ';'" class="search-result"></md-icon>
+                    </md-list-item>
+                    <md-divider role="separator"></md-divider>
+                </template>
+            </md-list>
+            <!-- Search results  -->
+            <!-- <md-list class="result-container" slot="content"> -->
+
+
+            <!-- <div slot="actions">
+                <md-text-button form="form-id" x-on:click="fetchResults()">Search</md-text-button>
+            </div> -->
+        </div>
+
+        <div slot="content" role="tabpanel" aria-labelledby="photos-tab" id="photos-panel" hidden>
+            hi
+        </div>
+        `;
+
+
+        var dialogOverlay = document.createElement('md-dialog');
+        dialogOverlay.id = "icon-search";
+        dialogOverlay.setAttribute('class', 'icon-search-overlay');
+        dialogOverlay.setAttribute('x-data', `{ 
+        endpointUrl: 'https://serene.tail0b4c1.ts.net/icon-search/',
+        query: '',
+        top_k: 16, 
+        results: [],
+        log_open: false,
+        log_text: [],
+        Assist: 'lol',
+        loading: false,
+        
+        fetchResults() {
+            this.loading = ! this.loading;
+            this.logMessage('Fetching results...');
+            const url = this.endpointUrl + encodeURIComponent(this.query) + '?top_k=' + this.top_k;
+            this.logMessage('Endpoint url: ' + url);
+        
+            fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                this.loading = ! this.loading;
+                this.results = data.result;
+    
+                this.logMessage('Data recieved successfully.');
+               
+                this.logMessage('Results rendered.');
+            })
+            .catch(error => {
+                this.loading = ! this.loading;
+                
+                this.logMessage('Error fetching results.');
+                this.logMessage('Content origin: ' + window.location.origin);
+                console.log('Content origin: ' + window.location.origin);
+            });
+          },
+        
+        hideOverlay() {
+            const iconSearch = document.body.querySelector('#icon-search');
+            iconSearch.hide();
+        },
+          logMessage(content) {
+            this.log_text.push(content);
+            this.$nextTick(() => {
+                const logContainer = this.$refs.logContainer;
+                logContainer.scrollTop = logContainer.scrollHeight;
+              });
+          },
+        }`);
+        dialogOverlay.innerHTML = dialogHTML;
+        document.body.appendChild(dialogOverlay);
+
+
+        window.addEventListener('load', () => {
+            const fabButton = document.body.querySelector('#fab-button');
+            const iconSearch = document.body.querySelector('#icon-search');
+            fabButton.addEventListener('click', async () => { await iconSearch.show(); });
+
+            const tabs = document.getElementById('primary-tabs');
+            var iconsPanel = document.getElementById('icons-panel');
+            var photosPanel = document.getElementById('photos-panel');
+
+            tabs.addEventListener('change', function (event) {
+                var target = event.target;
+
+                // Check if the activeTabIndex property exists on the target
+                if ('activeTabIndex' in target) {
+                    // Assuming the tabs start at index 0
+                    if (target.activeTabIndex === 0) {
+                        iconsPanel.removeAttribute('hidden');
+                        photosPanel.setAttribute('hidden', 'hidden');
+                    } else if (target.activeTabIndex === 1) {
+                        iconsPanel.setAttribute('hidden', 'hidden');
+                        photosPanel.removeAttribute('hidden');
+                    }
+                }
+            });
+
+        })();
+
+    </script>
+
+
+
+
+
+    <!-- <script defer src="../resources/js/main.js"></script> -->
+    <script defer src="../../dist/alpine.min.3.14.0.js"></script>
+    <script type="module" src="../resources/js/custom.js"></script>
+    <script type="module" src="../resources/js/type-styles.js"></script>
+
+</body>
+
+</html>

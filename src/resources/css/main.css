@@ -1,0 +1,11 @@
+@import url("./md-icon.css");
+@import url("./md-fab.css");
+@import url("./md-dialog.css");
+/* @import url("./material-design/light.css"); */
+
+
+/* In your main stylesheet */
+my-material-component {
+    --scroller-overflow-y: hidden;
+  }
+  

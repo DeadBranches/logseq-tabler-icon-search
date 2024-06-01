@@ -9,13 +9,13 @@
             for semantic text embedding and reranking, although the specific models
             can be swapped out.
 """
-
 import os
 
 # from contextlib import asynccontextmanager
 from typing import List
 
 import numpy as np
+from icecream import ic
 from fastapi import FastAPI
 from pydantic import BaseModel
 from sentence_transformers import CrossEncoder, SentenceTransformer
@@ -25,11 +25,30 @@ from sqlalchemy.orm import declarative_base, sessionmaker
 
 # region Configuration
 EMBEDDING_MODEL: str = "mixedbread-ai/mxbai-embed-large-v1"
-TABLE_NAME: str = "icons"
-DATABASE_DIRECTORY: str = "./"
-DATABASE_FILENAME: str = "tabler-icons.sqlite3"
-DATABASE_URL = f"sqlite://{os.path.join(DATABASE_DIRECTORY, DATABASE_FILENAME)}"
-print(DATABASE_URL)
+DATASET_DIRECTORY: str = "datasets"
+DATASET_OPTIONS: dict = {
+    "tabler-icons-1.110.0": {
+        "dataset_directory": "tabler-icons-1.110.0",
+        "database_filename": "tabler_icons.sqlite3",
+        "icon_data_filename": "tabler-icons.json",
+        "database_table_name": "icons"
+    },
+    "truncated-test": {
+        "dataset_directory": "truncated-test",
+        "database_filename": "truncated_test.sqlite3",
+        "icon_data_filename": "tabler-icons-partial.json",
+        "database_table_name": "icons"
+    }
+}
+
+DATASET = DATASET_OPTIONS['tabler-icons-1.110.0']
+
+DATASET_DIRECTORY: str = DATASET["dataset_directory"]
+DATABASE_FILENAME: str = DATASET["database_filename"]
+DATABASE_URL = f"sqlite://{os.path.join(DATASET_DIRECTORY, DATABASE_FILENAME)}"
+TABLE_NAME: str = DATASET["database_table_name"]
+
+ic(DATABASE_URL)
 # endregion
 
 
