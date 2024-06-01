@@ -1,17 +1,18 @@
-<md-dialog id="icon-search-main-dialog" class="icon-search-overlay" x-data="{ 
+<md-dialog id="icon-search-main-dialog" class="icon-search-overlay" x-data="{
+        // Settings
         endpointUrl: 'https://serene.tail0b4c1.ts.net/icon-search/',
-        query: '',
         top_k: 16, 
+        // Search
+        query: '',
         results: [],
-        log_open: false,
-        log_text: [],
-        Assist: 'lol',
+        // State
         loading: false,
-        
+        log_text: [],
+
         fetchResults() {
             this.loading = ! this.loading;
-            this.logMessage('Fetching results...');
             const url = this.endpointUrl + encodeURIComponent(this.query) + '?top_k=' + this.top_k;
+            this.logMessage('Fetching results...');
             this.logMessage('Endpoint url: ' + url);
         
             fetch(url)
@@ -19,23 +20,15 @@
             .then(data => {
                 this.loading = ! this.loading;
                 this.results = data.result;
-        
                 this.logMessage('Data recieved successfully.');
-                this.logMessage(JSON.stringify(data.result, null, 2));
-                this.logMessage('Results rendered.');
             })
             .catch(error => {
                 this.loading = ! this.loading;
-                
-                this.logMessage('Error fetching results.');
-                this.logMessage('Content origin: ' + window.location.origin);
+                this.logMessage('Error fetching results.\n\nContent origin: ' + window.location.origin);
                 console.log('Content origin: ' + window.location.origin);
             });
           },
-        //   hideOverlay() {
-        //     const iconSearch = document.body.querySelector('#icon-search-main-dialog');
-        //     iconSearch.close();
-        // },
+
           logMessage(content) {
             this.log_text.push(content);
             this.$nextTick(() => {
@@ -69,8 +62,6 @@
 
     <div slot="content" role="tabpanel" aria-labelledby="icons-tab" id="icon-search-icons-panel"
         class="icon-panel-container">
-
-
 
         <md-list class="result-container">
             <template x-for="icon in results" x-bind:key="icon.name">
