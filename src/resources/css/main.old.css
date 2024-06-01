@@ -1,0 +1,87 @@
+
+md-icon {
+  font-family: "better-tabler-icons";
+  /* display: inline; */
+}
+
+.overlay-container {
+  class: "light";
+  margin: 0%;
+  height: 40vh;
+  background-color: var(--md-sys-color-background);
+  /* overflow: hidden; doesn't hide overflow */
+}
+.content-container {
+  /* Contains search results */
+  z-index: 1;
+  position: relative;
+  max-height: 80vh;
+  overflow-y: auto; /* Enable vertical scrolling */
+  /* overflow: hidden; */
+}
+
+.options-container {
+  z-index: 3;
+
+  position: fixed;
+  right: 16px;
+  top: 16px;
+}
+
+.menu-container {
+  z-index: 3;
+
+  /* The menu component requires both button and menu to be
+                wrapped in a relative positioning tag */
+  position: relative;
+}
+
+.fab-container {
+  z-index: 2;
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+}
+
+.top-container {
+  z-index: 1;
+  width: 100%;
+  margin: 0px 0px 0px 0px;
+  background-color: var(--md-sys-color-secondary-container);
+  color: var(--md-sys-color-on-secondary-container);
+}
+
+/* .header-container {
+            width: 100%;
+            margin: 0px 0px 0px 0px;
+            background-color: var(--md-sys-color-secondary-container);
+            color: var(--md-sys-color-on-secondary-container);
+        } */
+.title-container {
+  /* width: 100%;
+            
+            margin: 0px 0px 0px 0px; */
+  padding-left: 16px;
+  padding-top: 1rem;
+  /* background-color: var(--md-sys-color-secondary-container);
+            color: var(--md-sys-color-on-secondary-container); */
+}
+
+.search-container {
+  /* width: 100%;
+            margin: 0px 0px 0px 0px; */
+  padding-left: 16px;
+  padding-bottom: 1rem;
+  /* background-color: var(--md-sys-color-secondary-container);
+            color: var(--md-sys-color-on-secondary-container); */
+}
+
+
+.log {
+    font-size: 0.7rem;
+    width: 80%;
+    max-height: 80%;
+    overflow: auto;
+    box-sizing: border-box;
+    white-space: pre-wrap;
+}
