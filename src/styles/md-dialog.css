@@ -1,80 +1,102 @@
 md-dialog.icon-search#icon-search-main-dialog {
-    height: 70vh;
-    width: 70vh;
+  height: 70vh;
+  width: 70vh;
 }
 
-    header.icon-search {
-        height: 10vh;
-        /* [slot="headline"] */
-        padding: 0px; 
-        display: block;
-    }
-        md-tabs.icon-search::part(divider) {
-            display: none;
-        }
+header.icon-search {
+  height: 10vh;
+  /* [slot="headline"] */
+  padding: 0px;
+  display: block;
+}
+md-tabs.icon-search::part(divider) {
+  display: none;
+}
 
+main.icon-search {
+  height: 60vh;
+  overflow: hidden;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
 
-    main.icon-search {
-        height: 60vh;
-        overflow: hidden;
-        padding-left: 0!important;
-        padding-right: 0!important;
-    }
+section.icon-search {
+  margin-top: 0.2rem;
+  justify-content: center;
+  display: flex;
+}
 
-        section.icon-search {
-            margin-top: 0.2rem;
-            justify-content: center;
-            display:flex;
-        }
+#icon-search-query md-icon {
+  cursor: pointer;
+}
 
-        #icon-search-query md-icon {
-            cursor: pointer;
-        }
+md-list.icon-search {
+  overflow-y: scroll;
+  height: 70%;
+  margin-top: 1rem; /* Space between the search form and results */
+  -webkit-scrollbar {
+    display: none;
+  }
+  scrollbar-width: none;
+}
 
-        md-list.icon-search {
-            overflow-y: scroll; 
-            height: 70%;
-            margin-top: 1rem; /* Space between the search form and results */
-            -webkit-scrollbar {
-                display: none;
-            }
-            scrollbar-width: none;
-    }
+/* Attempt at grid-based list */
+md-list.icon-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 5px;
+    overflow-y: auto;
+    height: 70%
+    /* flex-wrap: wrap;
+    justify-content: space-around; */
+  }
+md-list-item.icon-item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    /* margin: 5px;  */
+  }
+  md-icon.search-result {
+    display: block;
+    margin: auto;
+  }
+/*  */
 
-    /* Settings pane */
-    .icon-search-settings-row {
-        display: flex;
-        align-items: center;
-        /* This will vertically center the content in the row */
-        margin-bottom: 20px;
-        /* Space between rows */
-    }
+/* Settings pane */
+.icon-search-settings-row {
+  display: flex;
+  align-items: center;
+  /* This will vertically center the content in the row */
+  margin-bottom: 20px;
+  /* Space between rows */
+}
 
-    .icon-search-settings-icon-column {
-        flex: 0 0 auto;
-        /* Do not grow or shrink */
-        width: 50px;
-        /* Adjust as needed */
-        text-align: center;
-        /* Center the icon horizontally */
-        margin: 0px;
-    }
+.icon-search-settings-icon-column {
+  flex: 0 0 auto;
+  /* Do not grow or shrink */
+  width: 50px;
+  /* Adjust as needed */
+  text-align: center;
+  /* Center the icon horizontally */
+  margin: 0px;
+}
 
-    .icon-search-settings-content-column {
-        flex: 1;
-        /* Take up the remaining space */
-        display: flex;
-        flex-direction: column;
-        /* Stack label and slider on top of each other */
-        align-items: flex-start;
-        /* Align content to the start of the column */
-    }
+.icon-search-settings-content-column {
+  flex: 1;
+  /* Take up the remaining space */
+  display: flex;
+  flex-direction: column;
+  /* Stack label and slider on top of each other */
+  align-items: flex-start;
+  /* Align content to the start of the column */
+}
 
-    .icon-search-settings-content-column label,
-    .icon-search-settings-content-column md-slider {
-        width: 100%;
-        /* Full width of the column */
-    }
+.icon-search-settings-content-column label,
+.icon-search-settings-content-column md-slider {
+  width: 100%;
+  /* Full width of the column */
+}
 
 .fab-container {
   z-index: 1;

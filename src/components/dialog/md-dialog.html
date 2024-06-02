@@ -61,17 +61,30 @@
             </form>
         </section>
 
-        <md-list id="icon-search-results-container" class="icon-search">
+        <md-list id="icon-search-results-container" class="icon-search icon-grid">
             <template x-for="icon in results" x-bind:key="icon.name">
                 <md-list-item type="button"
-                    x-on:click="navigator.clipboard.writeText(icon.glyph); hideIconSearchDialog">
+                    x-on:click="navigator.clipboard.writeText(icon.glyph); hideIconSearchDialog"
+                    class="icon-item">
+                    <div slot="supporting-text" x-text="icon.name"></div>
+                    <md-icon slot="headline" x-html="'&#x' + icon.glyph + ';'" class="search-result"></md-icon>
+                </md-list-item>
+                <md-divider role="separator"></md-divider>
+            </template>
+        </md-list>
+
+        <!-- <md-list id="icon-search-results-container" class="icon-search icon-grid">
+            <template x-for="icon in results" x-bind:key="icon.name">
+                <md-list-item type="button"
+                    x-on:click="navigator.clipboard.writeText(icon.glyph); hideIconSearchDialog"
+                    class="icon-item">
                     <div slot="headline" x-text="icon.name"></div>
                     <div slot="supporting-text" x-text="icon.keywords"></div>
                     <md-icon slot="start" x-html="'&#x' + icon.glyph + ';'" class="search-result"></md-icon>
                 </md-list-item>
                 <md-divider role="separator"></md-divider>
             </template>
-        </md-list>
+        </md-list> -->
 
     </main>
 
