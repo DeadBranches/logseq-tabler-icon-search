@@ -33,13 +33,13 @@ md-dialog.icon-search#icon-search-main-dialog {
         }
 
         md-list.icon-search {
-        overflow-y: scroll; 
-        height: 70%;
-        margin-top: 1rem; /* Space between the search form and results */
-        -webkit-scrollbar {
-            display: none;
-        }
-        scrollbar-width: none;
+            overflow-y: scroll; 
+            height: 70%;
+            margin-top: 1rem; /* Space between the search form and results */
+            -webkit-scrollbar {
+                display: none;
+            }
+            scrollbar-width: none;
     }
 
     /* Settings pane */
