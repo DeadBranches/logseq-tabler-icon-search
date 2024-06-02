@@ -54,10 +54,10 @@
     </header>
 
     <main slot="content" id="icon-search-icons-panel" role="tabpanel" aria-labelledby="icons-tab" class="icon-search">
-        <section class="icon-search" style="position:-webkit-sticky; position: sticky; top: 0;">
+        <section class="icon-search">
             <form id="icon-search-form" method="dialog">
-                <md-outlined-text-field autofocus label="Icon name" type="search" required x-model="query">
-                    <md-icon slot="trailing-icon" x-on:click="fetchResults()" style="cursor: pointer;">&#xeb1c;</md-icon>
+                <md-outlined-text-field id="icon-search-query" autofocus label="Icon name" type="search" required x-on:keyup.enter="fetchResults" x-model="query">
+                    <md-icon slot="trailing-icon" x-on:click="fetchResults">&#xeb1c;</md-icon>
                 </md-outlined-text-field>
             </form>
         </section>
@@ -67,7 +67,7 @@
 
             <template x-for="icon in results" x-bind:key="icon.name">
                 <md-list-item type="button"
-                    x-on:click="navigator.clipboard.writeText(icon.glyph); hideIconSearchDialog()">
+                    x-on:click="navigator.clipboard.writeText(icon.glyph); hideIconSearchDialog">
                     <div slot="headline" x-text="icon.name"></div>
                     <div slot="supporting-text" x-text="icon.keywords"></div>
                     <md-icon slot="start" x-html="'&#x' + icon.glyph + ';'" class="search-result"></md-icon>
