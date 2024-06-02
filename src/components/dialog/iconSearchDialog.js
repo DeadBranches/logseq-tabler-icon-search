@@ -8,7 +8,7 @@ window.hideIconSearchDialog = hideIconSearchDialog;
 export function initializeIconSearchDialog() {
     return new Promise((resolve, reject) => {
 
-        fetch('../resources/html/md-dialog.html')
+        fetch('./components/dialog/md-dialog.html')
             .then(response => response.text())
             .then(htmlString => {
                 document.body.insertAdjacentHTML('beforeend', htmlString);

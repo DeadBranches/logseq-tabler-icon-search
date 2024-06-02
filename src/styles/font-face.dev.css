@@ -1,0 +1,8 @@
+@font-face {
+  font-family: "better-tabler-icons";
+  font-style: normal;
+  font-weight: 400;
+  src: url("../../node_modules/@tabler/icons-webfont/dist/fonts/tabler-icons.woff2") format("woff2"),
+    url("../../node_modules/@tabler/icons-webfont/dist/fonts/tabler-icons.woff") format("woff"),
+    url("../../node_modules/@tabler/icons-webfont/dist/fonts/tabler-icons.ttf") format("truetype");
+}

@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "dev": "npx web-dev-server --app-index 'src/frontend/index.html' --es-module-specifier-resolution=node --node-resolve --watch",
+    "dev": "cross-env NODE_ENV=dev npx web-dev-server --app-index 'src/index.html' --es-module-specifier-resolution=node --node-resolve --watch",
     "build": "rollup -c",
     "preview": "npx web-dev-server --es-module-specifier-resolution=node --node-resolve --open",
     "lint": "eslint . --ext .js,.ts",
@@ -27,6 +27,7 @@
     "@web/dev-server": "^0.4.5",
     "@web/rollup-plugin-copy": "^0.5.1",
     "@web/rollup-plugin-html": "^2.3.0",
+    "cross-env": "^7.0.3",
     "rollup": "^2.79.1",
     "rollup-plugin-summary": "^2.0.0"
   }
