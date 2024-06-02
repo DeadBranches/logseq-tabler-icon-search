@@ -42,6 +42,40 @@ md-dialog.icon-search#icon-search-main-dialog {
         scrollbar-width: none;
     }
 
+    /* Settings pane */
+    .icon-search-settings-row {
+        display: flex;
+        align-items: center;
+        /* This will vertically center the content in the row */
+        margin-bottom: 20px;
+        /* Space between rows */
+    }
+
+    .icon-search-settings-icon-column {
+        flex: 0 0 auto;
+        /* Do not grow or shrink */
+        width: 50px;
+        /* Adjust as needed */
+        text-align: center;
+        /* Center the icon horizontally */
+        margin: 0px;
+    }
+
+    .icon-search-settings-content-column {
+        flex: 1;
+        /* Take up the remaining space */
+        display: flex;
+        flex-direction: column;
+        /* Stack label and slider on top of each other */
+        align-items: flex-start;
+        /* Align content to the start of the column */
+    }
+
+    .icon-search-settings-content-column label,
+    .icon-search-settings-content-column md-slider {
+        width: 100%;
+        /* Full width of the column */
+    }
 
 .fab-container {
   z-index: 1;
