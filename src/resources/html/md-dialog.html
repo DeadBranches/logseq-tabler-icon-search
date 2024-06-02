@@ -50,72 +50,70 @@
 
         <md-linear-progress indeterminate x-show="loading"></md-linear-progress>
 
-        <section class="icon-search">
-            <form id="icon-search-form" method="dialog">
-                <md-outlined-text-field autofocus label="Icon name" type="search" required x-model="query">
-                    <md-icon slot="trailing-icon" x-on:click="fetchResults()">&#xeb1c;</md-icon>
-                </md-outlined-text-field>
-            </form>
 
-        </section>
     </header>
 
-    <!-- Option 1: main.md-list -->
-    <main slot="content" id="icon-search-icons-panel"
-         role="tabpanel" 
-        aria-labelledby="icons-tab" 
-        class="icon-search">
-        <md-list id="icon-search-results-container"
-            class="icon-search">
+    <main slot="content" id="icon-search-icons-panel" role="tabpanel" aria-labelledby="icons-tab" class="icon-search">
+        <section class="icon-search" style="position:-webkit-sticky; position: sticky; top: 0;">
+            <form id="icon-search-form" method="dialog">
+                <md-outlined-text-field autofocus label="Icon name" type="search" required x-model="query">
+                    <md-icon slot="trailing-icon" x-on:click="fetchResults()" style="cursor: pointer;">&#xeb1c;</md-icon>
+                </md-outlined-text-field>
+            </form>
+        </section>
+
+        <md-list id="icon-search-results-container" class="icon-search">
 
 
-        <!-- Option 2. -->
-        <!-- <md-list id="icon-search-icons-panel" slot="content" role="tabpanel" aria-labelledby="icons-tab"
-        class="icon-search"> -->
-
-        <template x-for="icon in results" x-bind:key="icon.name">
-            <md-list-item type="button" x-on:click="navigator.clipboard.writeText(icon.glyph); hideIconSearchDialog()">
-                <div slot="headline" x-text="icon.name"></div>
-                <div slot="supporting-text" x-text="icon.keywords"></div>
-                <md-icon slot="start" x-html="'&#x' + icon.glyph + ';'" class="search-result"></md-icon>
-            </md-list-item>
-            <md-divider role="separator"></md-divider>
-        </template>
+            <template x-for="icon in results" x-bind:key="icon.name">
+                <md-list-item type="button"
+                    x-on:click="navigator.clipboard.writeText(icon.glyph); hideIconSearchDialog()">
+                    <div slot="headline" x-text="icon.name"></div>
+                    <div slot="supporting-text" x-text="icon.keywords"></div>
+                    <md-icon slot="start" x-html="'&#x' + icon.glyph + ';'" class="search-result"></md-icon>
+                </md-list-item>
+                <md-divider role="separator"></md-divider>
+            </template>
 
         </md-list>
     </main>
-    <!-- Option 1 -->
-    
-    <!-- </md-list> -->
-    <!-- Option 2 -->
 
 
-<style>
-    .row {
-    display: flex;
-    align-items: center; /* This will vertically center the content in the row */
-    margin-bottom: 20px; /* Space between rows */
-}
+    <style>
+        .row {
+            display: flex;
+            align-items: center;
+            /* This will vertically center the content in the row */
+            margin-bottom: 20px;
+            /* Space between rows */
+        }
 
-.icon-column {
-    flex: 0 0 auto; /* Do not grow or shrink */
-    width: 50px; /* Adjust as needed */
-    text-align: center; /* Center the icon horizontally */
-    margin: 0px;
-}
+        .icon-column {
+            flex: 0 0 auto;
+            /* Do not grow or shrink */
+            width: 50px;
+            /* Adjust as needed */
+            text-align: center;
+            /* Center the icon horizontally */
+            margin: 0px;
+        }
 
-.content-column {
-    flex: 1; /* Take up the remaining space */
-    display: flex;
-    flex-direction: column; /* Stack label and slider on top of each other */
-    align-items: flex-start; /* Align content to the start of the column */
-}
+        .content-column {
+            flex: 1;
+            /* Take up the remaining space */
+            display: flex;
+            flex-direction: column;
+            /* Stack label and slider on top of each other */
+            align-items: flex-start;
+            /* Align content to the start of the column */
+        }
 
-.content-column label,
-.content-column md-slider {
-    width: 100%; /* Full width of the column */
-}
-</style>
+        .content-column label,
+        .content-column md-slider {
+            width: 100%;
+            /* Full width of the column */
+        }
+    </style>
 
     <main id="icon-search-settings-panel" slot="content" role="tabpanel" aria-labelledby="icon-search-settings-tab"
         hidden>
@@ -127,8 +125,8 @@
                 <md-icon>&#xf3f3;</md-icon> <!-- Replace with your icon -->
             </figure>
             <div class="content-column">
-                <label for="media-volume">Media volume</label>
-                <md-slider id="media-volume" min="20" max="200" value="40" step="10" labeled></md-slider>
+                <label for="media-volume">Search results</label>
+                <md-slider id="media-volume" min="20" max="200" value="40" step="10" x-model.number.debounce.500ms="top_k" labeled></md-slider>
             </div>
         </div>
     </main>
