@@ -125,7 +125,6 @@ celerybeat.pid
 *.sage.py
 
 # Environments
-.env
 .venv
 env/
 venv/
@@ -336,7 +335,6 @@ web_modules/
 .yarn-integrity
 
 # dotenv environment variable files
-.env
 .env.development.local
 .env.test.local
 .env.production.local
@@ -402,27 +400,9 @@ dist
 
 
 ### My own local stuff ######################################
-*.m3u
-
-# backups
-**/archive/**
-**/backups/**
-**/old/**
-
-# Config
-**/secrets/**
-**/config.*
 
 # conda
 **/*.autoenv*
 
-# in progress
-**/test/**
-
-# database
-#**/*.db
-
-# Authentication
-**/cookies*.json
-**/credentials.json
-**/token.json
+.env/*
+!.env/
