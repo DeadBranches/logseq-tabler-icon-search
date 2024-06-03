@@ -1,22 +1,14 @@
-""" A search engine for logseq tabler icons.
-    Logseq integrates a minimal version of tabler-icons for internal use.
-    This module uses text embedding and reranking models to return relevant icons
-    from a search query. 
-        - Keywords for associated icons are sourced from logseq-tabler-picker.
-        - Precomputed embeddings are stored in a sqlite3 database for use at inference.
-        - FastAPI exposes an endpoint for searching.
-        - HuggingFace sentence-transformer pipelines are used along with mxbread models
-            for semantic text embedding and reranking, although the specific models
-            can be swapped out.
+""" Module description:
+    This module implements a semantic search API for the icons table in the
+    mxbai-embed-06-tabler-icons-full.db database.
 """
-import os
 
 # from contextlib import asynccontextmanager
-from typing import List
+from typing import Annotated, Union, List
 
 import numpy as np
-from icecream import ic
-from fastapi import FastAPI
+from fastapi import FastAPI, Query
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from sentence_transformers import CrossEncoder, SentenceTransformer
 from sentence_transformers.util import cos_sim
@@ -25,30 +17,10 @@ from sqlalchemy.orm import declarative_base, sessionmaker
 
 # region Configuration
 EMBEDDING_MODEL: str = "mixedbread-ai/mxbai-embed-large-v1"
-DATASET_DIRECTORY: str = "datasets"
-DATASET_OPTIONS: dict = {
-    "tabler-icons-1.110.0": {
-        "dataset_directory": "tabler-icons-1.110.0",
-        "database_filename": "tabler_icons.sqlite3",
-        "icon_data_filename": "tabler-icons.json",
-        "database_table_name": "icons"
-    },
-    "truncated-test": {
-        "dataset_directory": "truncated-test",
-        "database_filename": "truncated_test.sqlite3",
-        "icon_data_filename": "tabler-icons-partial.json",
-        "database_table_name": "icons"
-    }
-}
-
-DATASET = DATASET_OPTIONS['tabler-icons-1.110.0']
-
-DATASET_DIRECTORY: str = DATASET["dataset_directory"]
-DATABASE_FILENAME: str = DATASET["database_filename"]
-DATABASE_URL = f"sqlite://{os.path.join(DATASET_DIRECTORY, DATABASE_FILENAME)}"
-TABLE_NAME: str = DATASET["database_table_name"]
-
-ic(DATABASE_URL)
+TABLE_NAME: str = "icons"
+DATABASE_DIRECTORY: str = "databases"
+DATABASE_FILENAME: str = "mxbai-embed-06-tabler-icons-full.db"
+DATABASE_URL = f"sqlite:///./{DATABASE_DIRECTORY}/{DATABASE_FILENAME}"
 # endregion
 
 
@@ -82,6 +54,7 @@ class IconSearchRequest(BaseModel):
     """Pydantic schema for the icon search request."""
 
     search_string: str
+    negative_search_string: str = None
     top_k: int = 5
     query_prompt: str = "Represent this sentence for searching relevant passages:"
 
@@ -103,7 +76,24 @@ rerank_model = CrossEncoder("mixedbread-ai/mxbai-rerank-base-v1")
 
 app = FastAPI()
 
-
+origins = [
+    "https://serene.tail0b4c1.ts.net",
+    "http://127.0.0.1:8666",
+    "http://localhost",
+    "http://127.0.0.1:5500",
+    "http://localhost:8000",
+    "http://localhost:8001",
+    "https://localhost",
+    "http://localhost",
+        "http://localhost:5500",
+]
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 def semantically_embed(model, text: str) -> List:
     """Generate a vector embedded with the semantic meaning of the text."""
     text_embedding = model.encode(text)
@@ -113,6 +103,7 @@ def semantically_embed(model, text: str) -> List:
 @app.get("/icon-search/{search_string}", response_model=IconSearchResponse)
 async def icon_search(
     search_string: str,
+    negative_search_strings: Annotated[List[str] | None, Query()] = None,
     top_k: int = 5,
     query_prompt: str = "Represent this sentence for searching relevant passages:",
     icons=tabler_icons,
@@ -121,6 +112,17 @@ async def icon_search(
     search_query_embedding = semantically_embed(
         embedding_model, f"{query_prompt} {search_string}"
     )
+    if negative_search_strings:
+        negative_query_embeddings = [
+            semantically_embed(embedding_model, f"{query_prompt} {negative_search_string}")
+            for negative_search_string in negative_search_strings
+        ]
+        for negative_query_embedding in negative_query_embeddings:
+            search_query_embedding -= negative_query_embedding
+        # negative_query_embedding = semantically_embed(
+        #     embedding_model, f"{query_prompt} {negative_search_string}"
+        # )
+        # search_query_embedding -= negative_query_embedding
 
     icon_data = []
     for row in icons:
@@ -138,7 +140,7 @@ async def icon_search(
         :top_k
     ]
 
-    # icon_results = [IconResult(**result) for result in top_results]
+    icon_results = [IconResult(**result) for result in top_results]
 
     rerank_input_query = f"{query_prompt} {search_string}"
     rerank_input_documents = [result["keywords"] for result in top_results]
@@ -152,6 +154,7 @@ async def icon_search(
     final_results = []
     for item in rerank_results:
         icon = {}
+        # add "score": item['score'] as a new key to the list item in icon_results["results"] with index equal to item['corpus_id']
         icon["name"] = top_results[item["corpus_id"]]["name"]
         icon["glyph"] = top_results[item["corpus_id"]]["glyph"]
         icon["keywords"] = top_results[item["corpus_id"]]["keywords"]
@@ -166,4 +169,4 @@ async def icon_search(
 if __name__ == "__main__":
     import uvicorn
 
-    uvicorn.run(app, host="127.0.0.1", port=8666)
+    uvicorn.run("main:app", host="127.0.0.1", port=8666, reload=True)
