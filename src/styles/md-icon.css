@@ -2,3 +2,11 @@ md-icon {
   font-family: "better-tabler-icons";
   /* display: inline; */
 }
+md-icon.search-result {
+  width: 40px;
+  height: 40px;
+  font-size: 40px;
+  /* line-height */
+  /* margin: 0; */
+  /* https://github.com/angular/components/issues/4422#issuecomment-428303380 */
+}

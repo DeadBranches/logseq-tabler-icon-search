@@ -20,6 +20,7 @@
             .then(data => {
                 this.loading = ! this.loading;
                 this.results = data.result;
+                $refs.iconsearchinput.blur();
                 this.logMessage('Data recieved successfully.');
             })
             .catch(error => {
@@ -55,7 +56,12 @@
     <main slot="content" id="icon-search-icons-panel" role="tabpanel" aria-labelledby="icons-tab" class="icon-search">
         <section class="icon-search">
             <form id="icon-search-form" method="dialog">
-                <md-outlined-text-field id="icon-search-query" autofocus label="Icon name" type="search" required x-on:keyup.enter="fetchResults" x-model="query">
+                <md-outlined-text-field id="icon-search-query"
+                label="Icon name" type="search"
+                autofocus required 
+                x-on:focus="$refs.iconsearchinput.select()"
+                x-on:keyup.enter="fetchResults"
+                x-ref="iconsearchinput" x-model="query">
                     <md-icon slot="trailing-icon" x-on:click="fetchResults">&#xeb1c;</md-icon>
                 </md-outlined-text-field>
             </form>
@@ -66,8 +72,13 @@
                 <md-list-item type="button"
                     x-on:click="navigator.clipboard.writeText(icon.glyph); hideIconSearchDialog"
                     class="icon-item">
-                    <div slot="supporting-text" x-text="icon.name"></div>
-                    <md-icon slot="headline" x-html="'&#x' + icon.glyph + ';'" class="search-result"></md-icon>
+                    <md-icon slot="headline" x-html="'&#x' + icon.glyph + ';'" class="search-result" style="margin-bottom: 1rem"></md-icon>
+                    <!-- <span slot="supporting-text" x-text="icon.name"></span> -->
+                    <span slot="supporting-text" x-html="icon.name.replace(/-./g, function(match) {
+                        return match.length === 2 ? ' ' + match[1] : '<br>';
+                      })"></span>
+                      <!-- Replace hyphens with linebreaks, unless the next word is a single letter, in which case replace with a space. https://sl.bing.net/boC9kFkW5KK -->
+
                 </md-list-item>
                 <md-divider role="separator"></md-divider>
             </template>
