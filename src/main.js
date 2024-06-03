@@ -1,8 +1,12 @@
-// Framework dependancies
-import './utils/material-components.js'
+// Frameworks
 import Alpine from 'alpinejs';
 
-// Import components
+// Third party components
+import '@material/web/all.js';  // This is fine since we tree-shake 
+import {styles as typescaleStyles} from '@material/web/typography/md-typescale-styles.js';
+document.adoptedStyleSheets.push(typescaleStyles.styleSheet);
+
+// App components
 import { createIconSearchFab } from './components/fab/iconSearchFab.js';
 import { initializeIconSearchDialog, hideIconSearchDialog } from './components/dialog/iconSearchDialog.js';
 import { initializeIconSearchFabEventHandler, initializeIconSearchTabEventHandler } from './subscribers/iconSearchEventHandlers.js';
