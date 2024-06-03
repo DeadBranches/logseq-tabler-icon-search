@@ -1,9 +1,10 @@
 // Frameworks
 import Alpine from 'alpinejs';
+import persist from '@alpinejs/persist';
 
 // Third party components
 import '@material/web/all.js';  // This is fine since we tree-shake 
-import {styles as typescaleStyles} from '@material/web/typography/md-typescale-styles.js';
+import { styles as typescaleStyles } from '@material/web/typography/md-typescale-styles.js';
 document.adoptedStyleSheets.push(typescaleStyles.styleSheet);
 
 // App components
@@ -13,10 +14,13 @@ import { initializeIconSearchFabEventHandler, initializeIconSearchTabEventHandle
 
 // Initialize the application
 document.addEventListener('DOMContentLoaded', async () => {  // window.addEventListener('load', () => {
-    createIconSearchFab();
-    await initializeIconSearchDialog();
-    initializeIconSearchFabEventHandler();
-    initializeIconSearchTabEventHandler();
-    window.Alpine = Alpine;
-    Alpine.start();
+  createIconSearchFab();
+  await initializeIconSearchDialog();
+  initializeIconSearchFabEventHandler();
+  initializeIconSearchTabEventHandler();
+  window.Alpine = Alpine;
+  Alpine.plugin(persist)
+
+  Alpine.start();
+
 });

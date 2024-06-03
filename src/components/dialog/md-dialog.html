@@ -104,16 +104,13 @@
 
     <main id="icon-search-settings-panel" slot="content" role="tabpanel" aria-labelledby="icon-search-settings-tab"
         hidden>
-        <!-- <label id="icon-search-results-label" for="icon-search-results-slider">Cheeto</label>
-        <md-icon>&#xf3f3;</md-icon>
-        <md-slider id="icon-search-results-slider" min="20" max="200" value="40" step="10" aria-labelledby="icon-search-results-label" labeled></md-slider> -->
-        <div class="icon-search-settings-row">
+         <div class="icon-search-settings-row">
             <figure class="icon-search-settings-icon-column">
-                <md-icon>&#xf3f3;</md-icon> <!-- Replace with your icon -->
+                <md-icon>&#xf3f3;</md-icon>
             </figure>
             <div class="icon-search-settings-content-column">
-                <label for="media-volume">Search results</label>
-                <md-slider id="media-volume" min="20" max="200" value="40" step="10" x-model.number.debounce.500ms="top_k" labeled></md-slider>
+                <label for="result_quantity">Search results</label>
+                <md-slider id="result_quantity" min="20" max="200" value="40" step="10" x-model.number.debounce.500ms="top_k" labeled></md-slider>
             </div>
         </div>
     </main>
