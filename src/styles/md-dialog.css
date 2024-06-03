@@ -13,27 +13,26 @@ md-tabs.icon-search::part(divider) {
   display: none;
 }
 
-main.icon-search {
+#icon-search-icons-panel {
   height: 60vh;
   overflow: hidden;
+}
+.horizontally-fill {
   padding-left: 0 !important;
   padding-right: 0 !important;
 }
-
-section.icon-search {
-  margin-top: 0.2rem;
-  justify-content: center;
-  display: flex;
-}
-
 #icon-search-query md-icon {
   cursor: pointer;
 }
 
-md-list.icon-search {
-  overflow-y: scroll;
+#icon-search-results-container {
   height: 70%;
   margin-top: 1rem; /* Space between the search form and results */
+  overflow-y: scroll;
+  /* overflow-y: auto; also seems to work?*/
+}
+
+.hidden-scrollbar {
   -webkit-scrollbar {
     display: none;
   }
@@ -41,26 +40,36 @@ md-list.icon-search {
 }
 
 /* Attempt at grid-based list */
-md-list.icon-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-gap: 5px;
-    overflow-y: auto;
-    height: 70%
-    /* flex-wrap: wrap;
-    justify-content: space-around; */
-  }
-md-list-item.icon-item {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    /* margin: 5px;  */
-  }
-  md-icon.search-result {
-    display: block;
-    margin: auto;
-  }
+.grid-3col {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 5px;
+}
+
+.top-align-content {
+  /* align = vertical */
+  display: flex;
+  align-items: start;
+}
+.center-align-content {
+  /* align = vertical */
+  display: flex;
+  align-items: center;
+}
+.center-content {
+  /* justify = horizontal */
+  display: flex;
+  justify-content: center;
+  text-align: center;
+}
+.center-self {
+  margin: auto;
+}
+.block {
+  display: block;
+}
+
+
 /*  */
 
 /* Settings pane */

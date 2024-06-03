@@ -1,8 +1,11 @@
 md-icon {
-  font-family: "better-tabler-icons";
+  --md-icon-font: 'better-tabler-icons';
+  /* font-family: "better-tabler-icons"; */
   /* display: inline; */
 }
-md-icon.search-result {
+
+
+md-icon.large {
   width: 40px;
   height: 40px;
   font-size: 40px;
@@ -10,3 +13,12 @@ md-icon.search-result {
   /* margin: 0; */
   /* https://github.com/angular/components/issues/4422#issuecomment-428303380 */
 }
+
+/* md-icon.search-result {
+  width: 40px;
+  height: 40px;
+  font-size: 40px; */
+  /* line-height */
+  /* margin: 0; */
+  /* https://github.com/angular/components/issues/4422#issuecomment-428303380 */
+/* } */

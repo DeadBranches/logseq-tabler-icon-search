@@ -18,10 +18,10 @@
             fetch(url)
             .then(response => response.json())
             .then(data => {
-                this.loading = ! this.loading;
                 this.results = data.result;
-                $refs.iconsearchinput.blur();
-                this.logMessage('Data recieved successfully.');
+                this.loading = ! this.loading;
+                $refs.iconSearchQuery.blur(); // hide keyboard
+                this.logMessage('Data recieved');
             })
             .catch(error => {
                 this.loading = ! this.loading;
@@ -53,27 +53,30 @@
 
     </header>
 
-    <main slot="content" id="icon-search-icons-panel" role="tabpanel" aria-labelledby="icons-tab" class="icon-search">
-        <section class="icon-search">
+    <main slot="content" id="icon-search-icons-panel" role="tabpanel" aria-labelledby="icons-tab" class="icon-search horizontally-fill">
+        <section class="center-content">
             <form id="icon-search-form" method="dialog">
                 <md-outlined-text-field id="icon-search-query"
-                label="Icon name" type="search"
+                x-ref="iconSearchQuery" label="Icon name"
                 autofocus required 
-                x-on:focus="$refs.iconsearchinput.select()"
+                x-on:focus="$refs.iconSearchQuery.select()"
                 x-on:keyup.enter="fetchResults"
-                x-ref="iconsearchinput" x-model="query">
-                    <md-icon slot="trailing-icon" x-on:click="fetchResults">&#xeb1c;</md-icon>
+                 x-model="query">
+                    <md-icon-button x-ref="searchQueryButton" slot="trailing-icon" x-on:click.prevent="fetchResults">
+                        <md-icon>&#xeb1c;</md-icon>
+                    </md-icon-button>
                 </md-outlined-text-field>
             </form>
         </section>
 
-        <md-list id="icon-search-results-container" class="icon-search icon-grid">
+        <md-list id="icon-search-results-container" class="grid-3col hidden-scrollbar">
             <template x-for="icon in results" x-bind:key="icon.name">
                 <md-list-item type="button"
-                    x-on:click="navigator.clipboard.writeText(icon.glyph); hideIconSearchDialog"
-                    class="icon-item">
-                    <md-icon slot="headline" x-html="'&#x' + icon.glyph + ';'" class="search-result" style="margin-bottom: 1rem"></md-icon>
-                    <!-- <span slot="supporting-text" x-text="icon.name"></span> -->
+                    x-on:click="navigator.clipboard.writeText(icon.glyph); hideIconSearchDialog()"
+                    class="center-content top-align-content">
+
+                    <md-icon slot="headline" x-html="'&#x' + icon.glyph + ';'" class="block center-self large" style="margin-bottom: 1rem;"></md-icon>
+
                     <span slot="supporting-text" x-html="icon.name.replace(/-./g, function(match) {
                         return match.length === 2 ? ' ' + match[1] : '<br>';
                       })"></span>
