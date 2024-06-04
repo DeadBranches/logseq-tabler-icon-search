@@ -8,8 +8,8 @@ import { styles as typescaleStyles } from '@material/web/typography/md-typescale
 document.adoptedStyleSheets.push(typescaleStyles.styleSheet);
 
 // App components
-import { createIconSearchFab } from './components/fab/iconSearchFab.js';
-import { initializeIconSearchDialog, hideIconSearchDialog } from './components/dialog/iconSearchDialog.js';
+import { createIconSearchFab } from './features/iconSearchFab.js';
+import { initializeIconSearchDialog, hideIconSearchDialog } from './features/iconSearchDialog.js';
 import { initializeIconSearchFabEventHandler, initializeIconSearchTabEventHandler } from './subscribers/iconSearchEventHandlers.js';
 
 // Initialize the application
@@ -20,7 +20,12 @@ document.addEventListener('DOMContentLoaded', async () => {  // window.addEventL
   initializeIconSearchTabEventHandler();
   window.Alpine = Alpine;
   Alpine.plugin(persist)
-
   Alpine.start();
 
 });
+
+import './styles/md-dialog.css';
+import './styles/md-fab.css';
+import './styles/md-icon.css';
+import './styles/material-design/light.css';
+import './styles/tabler-icons-font.css';

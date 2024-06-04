@@ -1,4 +1,6 @@
-const iconSearchFabHTML = `
+const html = String.raw;
+
+const iconSearchFabHTML = html`
     <md-fab size="small" variant="primary" aria-label="Search" id="icon-search-fab">
         <md-icon slot="icon">&#xeb1c;</md-icon>
     </md-fab>
