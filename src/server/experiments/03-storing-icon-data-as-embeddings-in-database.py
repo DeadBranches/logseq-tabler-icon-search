@@ -10,8 +10,8 @@
 
 import json
 import os
-from typing import List, Dict, Set, Tuple, Any
-from sqlite3 import Connection, connect, OperationalError, IntegrityError
+from sqlite3 import Connection, IntegrityError, OperationalError, connect
+from typing import Any, Dict, List, Set, Tuple
 
 from icecream import ic
 from sentence_transformers import SentenceTransformer
@@ -93,9 +93,26 @@ def main():
 
     initialize_database(database, TABLE_NAME, TABLE_STRUCTURE)
 
+    # Structure of json file is:
+    dummy_data = {
+        "a-b-2": {
+            "name": "a-b-2",
+            "category": "",
+            "tags": ["test", "visual", "user"],
+            "styles": {"outline": {"version": "1.76", "unicode": "f25f"}},
+        },
+        "a-b-off": {
+            "name": "a-b-off",
+            "category": "",
+            "tags": ["test", "visual", "user"],
+            "styles": {"outline": {"version": "1.62", "unicode": "f0a6"}},
+        },
+    }
+
     def structure_icon_data(filepath: str) -> List[Dict]:
         icon_data: List[Dict] = load_json(filepath)  # ingest data
         processed_data: List[Dict] = []
+        # The old way of doing things is below:
         for item in icon_data:
             name: str = item["n"]
             keywords: str = item["t"]
@@ -169,4 +186,5 @@ def main():
 
 
 if __name__ == "__main__":
+
     main()

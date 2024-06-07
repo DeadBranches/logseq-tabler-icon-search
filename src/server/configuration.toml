@@ -1,0 +1,43 @@
+# Key name of dataset to use
+dataset = "tabler-icons-3.5.0"
+
+[embedding_model_profile]
+    [embedding_model_profile."snowflake-arctic-embed-m"]
+        model_string = "Snowflake/snowflake-arctic-embed-m"
+        query_prompt = "Which list of icon keywords belongs to the <<REPLACE>> icon?"
+        encoding_parameters = { "prompt_name" = "query" }
+
+    [embedding_model_profile."mixedbread-ai"]
+        model_string = "mixedbread-ai/mxbai-embed-large-v1"
+        query_prompt = "Represent this sentence for searching relevant passages: <<REPLACE>>"
+
+[datasets]
+    [datasets."tabler-icons-3.5.0"]
+    # Parameters
+    #
+    #   dataset_directory: str - A subfolder folder within datasets/ (or whatever you set in datasets_directory)
+    #   model_profile: str - A subkey of `embedding_model_profiles` from this configuration
+    #   model_string: str - The HuggingFace hub model string
+    #   database_filename: str - File within datasets_directory/dataset_directory/
+    dataset_directory = "tabler-icons-3.5.0"
+    model_profile = "snowflake-arctic-embed-m"
+    database_filename = "icons-snowflake-arctic-embed-m.sqlite3"
+    table_name = "icons"
+
+
+[locations]
+# Relative to main.py
+datasets_directory = "datasets"
+
+[CORS]
+origins = [
+    "https://serene.tail0b4c1.ts.net",
+    "http://127.0.0.1:8667",
+    "http://localhost",
+    "http://127.0.0.1:5500",
+    "http://localhost:8000",
+    "http://localhost:8001",
+    "https://localhost",
+    "http://localhost",
+    "http://localhost:5500",
+]
