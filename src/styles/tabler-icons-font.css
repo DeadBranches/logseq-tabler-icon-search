@@ -2,7 +2,7 @@
   font-family: "better-tabler-icons";
   font-style: normal;
   font-weight: 400;
-  src: url("../assets/font/tabler-icons.woff2") format("woff2"),
-    url("../assets/font/tabler-icons.woff") format("woff"),
-    url("../assets/font/tabler-icons.ttf") format("truetype");
+  src: url("assets/font/tabler-icons.woff2") format("woff2"),
+    url("assets/font/tabler-icons.woff") format("woff"),
+    url("assets/font/tabler-icons.ttf") format("truetype");
 }

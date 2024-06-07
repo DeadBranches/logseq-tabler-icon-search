@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "main": "main.js",
   "scripts": {
+    "server-update": ""
     "dev": "cross-env NODE_ENV=dev npx web-dev-server --app-index 'src/index.html' --es-module-specifier-resolution=node --node-resolve --watch",
     "serve": "npx reload -b -d ./dist -p 8000 | npx rollup -c -w",
     "build": "npx rollup -c",

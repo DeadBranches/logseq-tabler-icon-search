@@ -1,11 +1,11 @@
-export function hideIconSearchDialog() {
+export function hideDialog() {
     const iconSearch = document.body.querySelector('#icon-search-main-dialog');
     iconSearch.close();
 }
 // Make the function available for use by AlpineJS instead of having to define it in x-data
-window.hideIconSearchDialog = hideIconSearchDialog;
+window.hideIconSearchDialog = hideDialog;
 
-export function initializeIconSearchDialog() {
+export function createDialog() {
     const html = String.raw;
     
     const iconSearchDialog = html`
@@ -160,3 +160,28 @@ export function initializeIconSearchDialog() {
 };
 
 
+export function listenForTabEvents() {
+    const iconSearchPrimaryTabsElement = document.getElementById('icon-search-primary-tabs');
+    const iconSearchIconsPanel = document.getElementById('icon-search-icons-panel');
+    const iconSearchSettingsPanel = document.getElementById('icon-search-settings-panel');
+
+    if (!iconSearchPrimaryTabsElement) { console.log('[iconSearchEventHandlers] Error getting primary tab elemenmt.'); return;  }
+    if (!iconSearchIconsPanel) {  console.log('[iconSearchEventHandlers] Error getting icon panel element.'); return  }
+    if (!iconSearchSettingsPanel) { console.log('[iconSearchEventHandlers] Error getting settings panel element.'); return  }
+
+    iconSearchPrimaryTabsElement.addEventListener('change', function (event) {
+        var target = event.target;
+
+        // Check if the activeTabIndex property exists on the target
+        if ('activeTabIndex' in target) {
+            // Assuming the tabs start at index 0
+            if (target.activeTabIndex === 0) {
+                iconSearchIconsPanel.removeAttribute('hidden');
+                iconSearchSettingsPanel.setAttribute('hidden', 'hidden');
+            } else if (target.activeTabIndex === 1) {
+                iconSearchIconsPanel.setAttribute('hidden', 'hidden');
+                iconSearchSettingsPanel.removeAttribute('hidden');
+            }
+        }
+    });
+}

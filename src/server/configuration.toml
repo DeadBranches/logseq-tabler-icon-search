@@ -1,29 +1,52 @@
 # Key name of dataset to use
-dataset = "tabler-icons-3.5.0"
+dataset = "tabler-icons-3.5.0-mxbai-embed-large-v1"
 
 [embedding_model_profile]
     [embedding_model_profile."snowflake-arctic-embed-m"]
         model_string = "Snowflake/snowflake-arctic-embed-m"
-        query_prompt = "Which list of icon keywords belongs to the <<REPLACE>> icon?"
+        query_prompt = "Describe the word xNxREPLACExNx."
         encoding_parameters = { "prompt_name" = "query" }
 
-    [embedding_model_profile."mixedbread-ai"]
+    [embedding_model_profile."snowflake-arctic-embed-xs"]
+        model_string = "Snowflake/snowflake-arctic-embed-xs"
+        query_prompt = "Describe the word xNxREPLACExNx."
+        encoding_parameters = { "prompt_name" = "query" }
+
+    [embedding_model_profile."mxbai-embed-large-v1"]
         model_string = "mixedbread-ai/mxbai-embed-large-v1"
-        query_prompt = "Represent this sentence for searching relevant passages: <<REPLACE>>"
+        query_prompt = "Represent this sentence for searching relevant passages: xNxREPLACExNx"
 
 [datasets]
-    [datasets."tabler-icons-3.5.0"]
+    
     # Parameters
     #
     #   dataset_directory: str - A subfolder folder within datasets/ (or whatever you set in datasets_directory)
     #   model_profile: str - A subkey of `embedding_model_profiles` from this configuration
     #   model_string: str - The HuggingFace hub model string
     #   database_filename: str - File within datasets_directory/dataset_directory/
-    dataset_directory = "tabler-icons-3.5.0"
-    model_profile = "snowflake-arctic-embed-m"
+    [datasets."tabler-icons-1.110.0"]
+    dataset_directory = "tabler-icons-1.110.0"
+    model_profile = "mxbai-embed-large-v1"
     database_filename = "icons-snowflake-arctic-embed-m.sqlite3"
     table_name = "icons"
 
+    [datasets."tabler-icons-3.5.0"]
+    dataset_directory = "tabler-icons-3.5.0"
+    model_profile = "snowflake-arctic-embed-m"
+    database_filename = "icons-mxbai-embed-large.sqlite3"
+    table_name = "icons"
+
+    [datasets."tabler-icons-3.5.0-arctic-xsmall"]
+    dataset_directory = "tabler-icons-3.5.0"
+    model_profile = "snowflake-arctic-embed-xs"
+    database_filename = "icons-snowflake-arctic-embed-xs.sqlite3"
+    table_name = "icons"
+
+    [datasets."tabler-icons-3.5.0-mxbai-embed-large-v1"]
+    dataset_directory = "tabler-icons-3.5.0"
+    model_profile = "mxbai-embed-large-v1"
+    database_filename = "icons-mxbai-embed-large-v1.sqlite3"
+    table_name = "icons"
 
 [locations]
 # Relative to main.py

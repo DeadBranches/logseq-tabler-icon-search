@@ -130,8 +130,7 @@ class IconSearchResponse(BaseModel):
     """Pydantic schema for the icon search response."""
 
     result: List[IconResult]
-    processing_time: float | None = None
-    options: dict | None = None
+    debug_info: dict | None = None
 
 
 ICON_DATABASE_CONFIG = IconDatabase()
@@ -189,7 +188,9 @@ async def icon_search(
         if query_prompt_template is not None
         else EMBEDDING_MODEL_CONFIG.query_prompt
     )
-    positive_query_prompt = query_prompt_template.replace("<<REPLACE>>", search_string)
+    positive_query_prompt = query_prompt_template.replace(
+        "xNxREPLACExNx", search_string
+    )
     positive_query_embedding = semantically_embed(
         EMBEDDING_MODEL,
         positive_query_prompt,
@@ -197,20 +198,28 @@ async def icon_search(
     )
 
     query_embedding = positive_query_embedding
-    if negative_search:
+    if negative_search is not None:
         negative_query_embeddings = np.array(
             [
                 semantically_embed(
                     EMBEDDING_MODEL,
-                    query_prompt_template.replace("<<REPLACE>>", negative_keyword),
+                    query_prompt_template.replace("xNxREPLACExNx", negative_keyword),
                     **EMBEDDING_MODEL_CONFIG.encoding_parameters,
                 )
                 for negative_keyword in negative_search
             ]
         )
-        average_negative_embedding = np.mean(negative_query_embeddings, axis=0)
-        query_embedding = positive_query_embedding - average_negative_embedding
+        method = "average"
+        if method == "average":
+            average_negative_embedding = np.mean(negative_query_embeddings, axis=0)
+            query_embedding = positive_query_embedding - average_negative_embedding
+        else:
 
+            total_negative_embedding = np.sum(negative_query_embeddings, axis=0)
+            # Subtract the sum of negative embeddings from the positive embedding
+            query_embedding = positive_query_embedding - total_negative_embedding
+
+    # Method #1
     # icon_data = []
     #     for row in icons:
     #     icon_vector = np.frombuffer(row.vector, dtype=np.float32)
@@ -222,35 +231,64 @@ async def icon_search(
     #         "similarity_score": similarity_score.item(),
     #     }
     #     icon_data.append(icon_info)
+    #     top_results = sorted(icon_data, key=lambda x: x["similarity_score"], reverse=True)[
+    #     :top_k
+    # ]
     # processing_time	620.5425262451172
 
-    def create_icon_info(row):
-        icon_vector = np.frombuffer(row.vector, dtype=np.float32)
-        similarity_score = cos_sim(query_embedding, icon_vector)
-        return {
+    # Method 2
+    # def create_icon_info(row):
+    #     # processing_time	623.6565113067627
+    #     icon_vector = np.frombuffer(row.vector, dtype=np.float32)
+    #     similarity_score = cos_sim(query_embedding, icon_vector)
+    #     return {
+    #         "name": row.name,
+    #         "glyph": row.glyph,
+    #         "keywords": row.tags,
+    #         "similarity_score": similarity_score.item(),
+    #     }
+    # icon_data = list(map(create_icon_info, icons))
+    #
+    # top_results = sorted(icon_data, key=lambda x: x["similarity_score"], reverse=True)[
+    #     :top_k
+    # ]
+
+    icon_vectors = np.array(
+        [np.frombuffer(row.vector, dtype=np.float32) for row in icons]
+    )
+    similarity_scores = query_embedding @ icon_vectors.T
+    icon_data = [
+        {
             "name": row.name,
             "glyph": row.glyph,
             "keywords": row.tags,
-            "similarity_score": similarity_score.item(),
+            "similarity_score": score.item(),
         }
-
-    icon_data = list(map(create_icon_info, icons))
-
+        for row, score in zip(icons, similarity_scores.flatten())
+    ]
     top_results = sorted(icon_data, key=lambda x: x["similarity_score"], reverse=True)[
         :top_k
     ]
+    # processing_time 33.99944305419922
 
     # icon_results = [IconResult(**result) for result in top_results]
 
+    def debug_info(
+        rerank=dont_rerank, keywords=no_keywords, semantic_score=no_semantic_score
+    ):
+        return {
+            "processing_time": (time() - start_time) * 1000,
+            "dont_rerank": rerank,
+            "no_keywords": keywords,
+            "no_semantic_score": semantic_score,
+            "positive_query_prompt": positive_query_prompt,
+            "model": EMBEDDING_MODEL_CONFIG.model_string,
+        }
+
     if (dont_rerank is True) and (no_keywords is None) and (no_semantic_score is None):
         return IconSearchResponse(
-            options={
-                "dont_rerank": True,
-                "no_keywords": False,
-                "no_semantic_score": False,
-            },
+            debug_info=debug_info(),
             result=[IconResult(**result) for result in top_results],
-            processing_time=(time() - start_time) * 1000,
         )
     if (dont_rerank is True) and ((no_keywords is True) or (no_semantic_score is True)):
         results = [
@@ -269,13 +307,8 @@ async def icon_search(
             for result in top_results
         ]
         return IconSearchResponse(
-            options={
-                "dont_rerank": dont_rerank,
-                "no_keywords": no_keywords,
-                "no_semantic_score": no_semantic_score,
-            },
+            debug_info=debug_info(),
             result=results,
-            processing_time=(time() - start_time) * 1000,
         )
 
     rerank_input_query = f"{query_prompt_template} {search_string}"
@@ -290,18 +323,15 @@ async def icon_search(
     final_results = []
     for item in reranked_results:
         icon = {}
-        # add "score": item['score'] as a new key to the list item in icon_results["results"] with index equal to item['corpus_id']
         icon["name"] = top_results[item["corpus_id"]]["name"]
         icon["glyph"] = top_results[item["corpus_id"]]["glyph"]
         icon["keywords"] = top_results[item["corpus_id"]]["keywords"]
         icon["similarity_score"] = item["score"]
         final_results.append(icon)
 
-    end_time = time()  # End time after processing the request
-    duration_ms = (end_time - start_time) * 1000  # Duration in milliseconds
     return IconSearchResponse(
         result=[IconResult(**result) for result in final_results],
-        processing_time=duration_ms,
+        debug_info=debug_info(),
     )
 
 

@@ -12,37 +12,53 @@ import summary from 'rollup-plugin-summary';
 export default [
   // First pass for material-components.js
   {
-    input: 'src/main.js',
+    input: 'src/index.html',
     output: {
       // file: 'dist/logseq-tabler-icon-search/bundle.js',
       dir: 'dist/logseq-tabler-icon-search',
-      format: 'iife',
+      // format: 'iife',
       name: 'IconSearch',
-      sourcemap: true
+      // sourcemap: true
     },
+
+    treeshake: true,
+    
     plugins: [
-      resolve(),
-      commonjs(),
-      terser({
-        ecma: 2021,
-        module: true,
-        warnings: true,
-        output: { comments: false } // https://stackoverflow.com/questions/60851390/svelte-bundle-js-is-large-full-of-license-comments-even-in-production-mode
-      }),
-      copy([
-          { src: 'src/assets/font/*', dest: 'dist/logseq-tabler-icon-search/assets' },
-          { src: 'src/environments/logseq', dest: 'dist/logseq-tabler-icon-search'}
+      // postcss({
+      //   extensions: ['.css'],
+      //   minimize: false,
+      //   sourceMap: true
+      // }),
+            copy(
+        [
+          { 
+            src: 'src/assets/font', 
+            dest: 'dist/logseq-tabler-icon-search/assets' 
+          },
+          {
+            src: 'src/styles',
+            dest: 'dist/logseq-tabler-icon-search'
+          },
+          { 
+            src: 'src/environments/logseq', 
+            dest: 'dist/logseq-tabler-icon-search'
+          }
         ]
       ),
-      postcss({
-        plugins: [],
-        inject: false,
-        extract: true,
-        sourceMap: true,
-        minimize: false
-    }),
+      resolve(),
+      // commonjs(),
+      // terser({
+      //   compress: false,
+      //   mangle: false,
+      //   ecma: 2021,
+      //   module: true,
+      //   warnings: true,
+      //   output: { comments: false } 
+      // }),
+
+
+      html(),
       summary()
     ],
-    treeshake: true // Enable tree-shaking
   }
-];
+]

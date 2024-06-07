@@ -20,7 +20,7 @@ from sentence_transformers import SentenceTransformer
 ## Configuration
 DEBUG: bool = True  # Output info to console
 
-EMBEDDING_MODEL: str = "Snowflake/snowflake-arctic-embed-m"
+EMBEDDING_MODEL: str = "mixedbread-ai/mxbai-embed-large-v1"
 # Filesystem-related
 ICON_DATA_DIRECTORY: str = "datasets/tabler-icons-3.5.0"
 # ICONS_DATA_FILENAME = "tabler-icons-full.json"
@@ -121,9 +121,6 @@ def main():
             keywords_set: Set[str] = set()
             # Sometimes the keywords list already includes the icon name
             keywords_set.add(name)
-            keyword_set = {
-                str(keyword) for keyword in item["tags"] if keyword is not None
-            }
             for keyword in item["tags"]:
                 if keyword is not None:
                     keywords_set.add(str(keyword))
