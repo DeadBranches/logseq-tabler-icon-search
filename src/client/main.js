@@ -1,27 +1,15 @@
-// Third party components
-import '@material/web/all.js';
-import {styles as typescaleStyles} from '@material/web/typography/md-typescale-styles.js';
-
-document.adoptedStyleSheets.push(typescaleStyles.styleSheet);
-(function () {
-    // Material design web-components
-    // let materialWebComponents = document.createElement('script');
-    // materialWebComponents.src = logseqAssetPath() + '/logseq-tabler-icon-search/js/material-web-components.js';
-    // document.head.appendChild(materialWebComponents);
-})();
-
-
 // Tabler icons
 (function () {
+    const platformAssetPath = logseqAssetPath();
     const styleElement = document.createElement('style');
     styleElement.textContent = `
         @font-face {
         font-family: "better-tabler-icons";
         font-style: normal;
         font-weight: 400;
-        src: url("${logseqAssetPath()}/logseq-tabler-icon-search/font/tabler-icons.woff2") format("woff2"),
-                url("${logseqAssetPath()}/logseq-tabler-icon-search/font/tabler-icons.woff") format("woff"),
-                url("${logseqAssetPath()}/logseq-tabler-icon-search/font/tabler-icons.ttf") format("truetype"); // Corrected the file extension
+        src: url("${platformAssetPath}/logseq-tabler-icon-search/font/tabler-icons.woff2") format("woff2"),
+                url("${platformAssetPath}/logseq-tabler-icon-search/font/tabler-icons.woff") format("woff"),
+                url("${platformAssetPath}/logseq-tabler-icon-search/font/tabler-icons.ttf") format("truetype"); // Corrected the file extension
         }
     `;
     document.head.appendChild(styleElement);
@@ -30,14 +18,13 @@ document.adoptedStyleSheets.push(typescaleStyles.styleSheet);
 
 
 // Third party frameworks
-
 (function () {
     // AlpineJS core
     //  "A rugged, minimal framework for composing JavaScript behavior in your markup. "
     //  source: https://github.com/alpinejs/alpine
     //  documentation: https://alpinejs.dev/start-here
     let alpinePersist = document.createElement('script');
-    alpinePersist.src = `${logseqAssetPath()}/logseq-tabler-icon-search/js/alpine.persist.js`;
+    alpinePersist.src = logseqAssetPath() + '/logseq-tabler-icon-search/js/alpine.persist.js';
     alpinePersist.defer = true;
     document.head.appendChild(alpinePersist);
     
@@ -45,7 +32,7 @@ document.adoptedStyleSheets.push(typescaleStyles.styleSheet);
     //  "Alpine's Persist plugin allows you to persist Alpine state across page loads."
     //  documentation: https://alpinejs.dev/plugins/persist
     let alpineScript = document.createElement('script');
-    alpineScript.src = `${logseqAssetPath()}/logseq-tabler-icon-search/js/alpine.min.js`;
+    alpineScript.src = logseqAssetPath() + '/logseq-tabler-icon-search/js/alpine.min.js';
     alpineScript.defer = true;
     document.head.appendChild(alpineScript);
 
@@ -56,9 +43,16 @@ document.adoptedStyleSheets.push(typescaleStyles.styleSheet);
     } catch (err) {
         logseq.api.show_msg("Alpine failed to load", "error")
     }
-
 })();
 
+
+// Third party components
+(function () {
+    // Material design web-components
+    let materialWebComponents = document.createElement('script');
+    materialWebComponents.src = logseqAssetPath() + '/logseq-tabler-icon-search/js/material-web-components.js';
+    document.head.appendChild(materialWebComponents);
+})();
 
 
 // logseq-tabler-icon-search

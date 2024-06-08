@@ -12,52 +12,19 @@ import summary from 'rollup-plugin-summary';
 export default [
   // First pass for material-components.js
   {
-    input: 'src/index.html',
+    input: 'src/main.js',
     output: {
       // file: 'dist/logseq-tabler-icon-search/bundle.js',
-      dir: 'dist/logseq-tabler-icon-search',
+      dir: 'release/assets/logseq-tabler-icon-search',
       // format: 'iife',
+      format: 'esm',
       name: 'IconSearch',
-      // sourcemap: true
+      preserveModules: true,
+      preserveModulesRoot: 'src',
     },
 
-    treeshake: true,
-    
     plugins: [
-      // postcss({
-      //   extensions: ['.css'],
-      //   minimize: false,
-      //   sourceMap: true
-      // }),
-            copy(
-        [
-          { 
-            src: 'src/assets/font', 
-            dest: 'dist/logseq-tabler-icon-search/assets' 
-          },
-          {
-            src: 'src/styles',
-            dest: 'dist/logseq-tabler-icon-search'
-          },
-          { 
-            src: 'src/environments/logseq', 
-            dest: 'dist/logseq-tabler-icon-search'
-          }
-        ]
-      ),
       resolve(),
-      // commonjs(),
-      // terser({
-      //   compress: false,
-      //   mangle: false,
-      //   ecma: 2021,
-      //   module: true,
-      //   warnings: true,
-      //   output: { comments: false } 
-      // }),
-
-
-      html(),
       summary()
     ],
   }

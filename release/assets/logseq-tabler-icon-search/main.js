@@ -1,14 +1,51 @@
-// Third party components
-import '@material/web/all.js';
-import {styles as typescaleStyles} from '@material/web/typography/md-typescale-styles.js';
+import './node_modules/@material/web/button/elevated-button.js';
+import './node_modules/@material/web/button/filled-button.js';
+import './node_modules/@material/web/button/filled-tonal-button.js';
+import './node_modules/@material/web/button/outlined-button.js';
+import './node_modules/@material/web/button/text-button.js';
+import './node_modules/@material/web/checkbox/checkbox.js';
+import './node_modules/@material/web/chips/assist-chip.js';
+import './node_modules/@material/web/chips/chip-set.js';
+import './node_modules/@material/web/chips/filter-chip.js';
+import './node_modules/@material/web/chips/input-chip.js';
+import './node_modules/@material/web/chips/suggestion-chip.js';
+import './node_modules/@material/web/dialog/dialog.js';
+import './node_modules/@material/web/divider/divider.js';
+import './node_modules/@material/web/elevation/elevation.js';
+import './node_modules/@material/web/fab/branded-fab.js';
+import './node_modules/@material/web/fab/fab.js';
+import './node_modules/@material/web/field/filled-field.js';
+import './node_modules/@material/web/field/outlined-field.js';
+import './node_modules/@material/web/focus/md-focus-ring.js';
+import './node_modules/@material/web/icon/icon.js';
+import './node_modules/@material/web/iconbutton/filled-icon-button.js';
+import './node_modules/@material/web/iconbutton/filled-tonal-icon-button.js';
+import './node_modules/@material/web/iconbutton/icon-button.js';
+import './node_modules/@material/web/iconbutton/outlined-icon-button.js';
+import './node_modules/@material/web/list/list.js';
+import './node_modules/@material/web/list/list-item.js';
+import './node_modules/@material/web/menu/menu.js';
+import './node_modules/@material/web/menu/menu-item.js';
+import './node_modules/@material/web/menu/sub-menu.js';
+import './node_modules/@material/web/progress/circular-progress.js';
+import './node_modules/@material/web/progress/linear-progress.js';
+import './node_modules/@material/web/radio/radio.js';
+import './node_modules/@material/web/ripple/ripple.js';
+import './node_modules/@material/web/select/filled-select.js';
+import './node_modules/@material/web/select/outlined-select.js';
+import './node_modules/@material/web/select/select-option.js';
+import './node_modules/@material/web/slider/slider.js';
+import './node_modules/@material/web/switch/switch.js';
+import './node_modules/@material/web/tabs/primary-tab.js';
+import './node_modules/@material/web/tabs/secondary-tab.js';
+import './node_modules/@material/web/tabs/tabs.js';
+import './node_modules/@material/web/textfield/filled-text-field.js';
+import './node_modules/@material/web/textfield/outlined-text-field.js';
+import { styles } from './node_modules/@material/web/typography/md-typescale-styles.js';
 
-document.adoptedStyleSheets.push(typescaleStyles.styleSheet);
-(function () {
-    // Material design web-components
-    // let materialWebComponents = document.createElement('script');
-    // materialWebComponents.src = logseqAssetPath() + '/logseq-tabler-icon-search/js/material-web-components.js';
-    // document.head.appendChild(materialWebComponents);
-})();
+// Third party components
+
+document.adoptedStyleSheets.push(styles.styleSheet);
 
 
 // Tabler icons
@@ -52,9 +89,9 @@ document.adoptedStyleSheets.push(typescaleStyles.styleSheet);
     let alpineVersion;
     try {
         alpineVersion = JSON.stringify(window.Alpine);
-        logseq.api.show_msg("Alpine loaded", "success")
+        logseq.api.show_msg("Alpine loaded", "success");
     } catch (err) {
-        logseq.api.show_msg("Alpine failed to load", "error")
+        logseq.api.show_msg("Alpine failed to load", "error");
     }
 
 })();
@@ -82,7 +119,7 @@ document.adoptedStyleSheets.push(typescaleStyles.styleSheet);
         const iconSearchDialog = document.body.querySelector('#icon-search-main-dialog');
         if (!iconSearchFab) { console.log('[iconSearchEventHandlers] Error getting fab element by id.'); return }
         if (!iconSearchDialog) { console.log('[iconSearchEventHandlers] Error getting dialog element by id.'); return }
-        iconSearchFab.addEventListener('click', async () => { await iconSearchDialog.show() });
+        iconSearchFab.addEventListener('click', async () => { await iconSearchDialog.show(); });
     }
 
 
@@ -245,8 +282,7 @@ document.adoptedStyleSheets.push(typescaleStyles.styleSheet);
         `;
     
         document.body.insertAdjacentHTML('beforeend', iconSearchDialog);
-    };
-    
+    }    
     
     function listenForTabEvents() {
         const iconSearchPrimaryTabsElement = document.getElementById('icon-search-primary-tabs');
@@ -446,7 +482,7 @@ document.adoptedStyleSheets.push(typescaleStyles.styleSheet);
     // Initialize the application
     window.hideIconSearchDialog = hideDialog;
 
-    insertMdIconStyles()
+    insertMdIconStyles();
     insertMdFabStyles();
     insertMdDialogStyles();
 
