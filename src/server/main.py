@@ -64,12 +64,11 @@ class IconDatabase:
         self.database_filename = profile_data["database_filename"]
         self.table_name = profile_data["table_name"]
         self.database_file = os.path.join(
-            sys.path[0],
             self.datasets_directory,
             self.dataset_directory,
             self.database_filename,
         )
-        self.database_url = f"sqlite:///./{self.database_file}"
+        self.database_url = f"sqlite:///{self.database_file}"
 
 
 @dataclass
