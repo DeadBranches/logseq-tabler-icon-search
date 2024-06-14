@@ -54,6 +54,7 @@ datasets_directory = "datasets"
 
 [CORS]
 origins = [
+    "file://",
     "https://serene.tail0b4c1.ts.net",
     "http://127.0.0.1:8667",
     "http://localhost",
