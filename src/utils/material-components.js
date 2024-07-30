@@ -21,8 +21,8 @@ import '@material/web/tabs/secondary-tab.js';
 import '@material/web/button/outlined-button.js';
 import '@material/web/textfield/filled-text-field.js';
 import '@material/web/typography/md-typescale-styles.js';
-import { styles as typescaleStyles } from '@material/web/typography/md-typescale-styles.js';
-document.adoptedStyleSheets.push(typescaleStyles.styleSheet);
+import '@material/web/typography/md-typescale-styles.js';
+
 
 // npm install alpinejs
 // import Alpine from 'alpinejs'
