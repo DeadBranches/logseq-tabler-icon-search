@@ -22,11 +22,8 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://github.com/github_username/repo_name">
-    <img src="images/logo.png" alt="Logo" width="80" height="80">
-  </a>
 
-<h3 align="center">project_title</h3>
+<h3 align="center">logseq tabler icon search</h3>
 
   <p align="center">
     project_description
@@ -56,73 +53,29 @@
 
 
 
-<!-- ABOUT THE PROJECT -->
-## About The Project
+# Logseq tabler icon search v1.0.0
+Initial release.
 
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
+## Tabler Icons 3.5.0
+Uses [Tabler Icons 3.5.0](https://github.com/tabler/tabler-icons) both client and server side
 
-Here's a blank template to get started: To avoid retyping too much info. Do a search and replace with your text editor for the following: `github_username`, `repo_name`, `twitter_handle`, `linkedin_username`, `email_client`, `email`, `project_title`, `project_description`
+## Text embedding models
+Four database choices each with pre-computed vectors for each icon's kewords using the following semantic text embedding models:
+- [mixedbread-ai/mxbai-embed-large-v1](https://huggingface.co/mixedbread-ai/mxbai-embed-large-v1)
+- [Snowflake/snowflake-arctic-embed-m](https://huggingface.co/Snowflake/snowflake-arctic-embed-m)
+- [Snowflake/snowflake-arctic-embed-s](https://huggingface.co/Snowflake/snowflake-arctic-embed-s)
+- [Snowflake/snowflake-arctic-embed-xs](https://huggingface.co/Snowflake/snowflake-arctic-embed-xs)
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+## Reranking
+Uses [mxbai-rerank-large-v1](https://huggingface.co/mixedbread-ai/mxbai-rerank-large-v1) for result reranking.
 
+## Front-end frameworks
+### [AlpineJS 3.14.0](https://github.com/alpinejs/alpine/releases/tag/v3.14.0)
+Includes AlpineJS core and AlpineJS persist
+### [Material Web Components 1.5.0](https://github.com/material-components/material-web/releases/tag/v1.5.0)
+and material-web-components client-side library for search-ui implementation.
 
-
-<!-- GETTING STARTED -->
-## Getting Started
-
-This is an example of how you may give instructions on setting up your project locally.
-To get a local copy up and running follow these simple example steps.
-
-### Prerequisites
-
-This is an example of how to list things you need to use the software and how to install them.
-* npm
-  ```sh
-  npm install npm@latest -g
-  ```
-  
-### Installation
-
-_Instruction on setup and install._
-
-1. Get a free API Key at [https://example.com](https://example.com)
-2. Clone the repo
-   ```sh
-   git clone https://github.com/your_username_/Project-Name.git
-   ```
-3. Install NPM packages
-   ```sh
-   npm install
-   ```
-4. Enter your API in `config.js`
-   ```js
-   const API_KEY = 'ENTER YOUR API';
-   ```
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-
-<!-- USAGE EXAMPLES -->
-## Usage
-
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-
-<!-- ROADMAP -->
-## Roadmap
-
-- [ ] Feature 1
-- [ ] Feature 2
-- [ ] Feature 3
-    - [ ] Nested Feature
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
+**Full Changelog**: https://github.com/DeadBranches/logseq-tabler-icon-search/commits/release
 
 
 <!-- LICENSE -->
