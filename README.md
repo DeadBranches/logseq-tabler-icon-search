@@ -26,7 +26,7 @@
 <h3 align="center">logseq tabler icon search</h3>
 
   <p align="center">
-    project_description
+    A backend and UI for semantic search over tabler icons in logseq using material web components and AlpineJS.
   </p>
 </div>
 
